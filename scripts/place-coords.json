@@ -1,0 +1,342 @@
+{
+  "aleia-nebesnoi-sotni": {
+    "latitude": 50.4222005,
+    "longitude": 25.7471918,
+    "address": "Острівок (парк навпроти замку), Дубно"
+  },
+  "budynok-dombrovskoho": {
+    "latitude": 50.398921,
+    "longitude": 25.757499,
+    "address": "вул. Михайла Грушевського, 156, Дубно"
+  },
+  "budynok-elberta": {
+    "latitude": 50.420328,
+    "longitude": 25.739283,
+    "address": "вул. Тараса Бульби, 4, Дубно"
+  },
+  "dubenskyi-zamok": {
+    "latitude": 50.42032,
+    "longitude": 25.7484201,
+    "address": "вул. Замкова, 7а, Дубно"
+  },
+  "istorychni-budynky-svobody": {
+    "latitude": 50.419212,
+    "longitude": 25.744834,
+    "address": "вул. Свободи, 8–18, Дубно"
+  },
+  "khmelefabruka": {
+    "latitude": 50.418984,
+    "longitude": 25.739782,
+    "address": "вул. Свободи, 48, Дубно"
+  },
+  "kolyshnia-likarnia": {
+    "latitude": 50.419738,
+    "longitude": 25.739191,
+    "address": "вул. Вінниченка, 18, Дубно"
+  },
+  "kontraktovyi-budynok": {
+    "latitude": 50.418893,
+    "longitude": 25.744262,
+    "address": "вул. Свободи, 1, Дубно"
+  },
+  "kostel-yana-nepomuka": {
+    "latitude": 50.4201041,
+    "longitude": 25.7435729,
+    "address": "вул. Князя Острозького, 18, Дубно"
+  },
+  "kraieznavchyi-muzei": {
+    "latitude": 50.42032,
+    "longitude": 25.7484201,
+    "address": "вул. Замкова, 7а, Дубно"
+  },
+  "kupezki-budynky-kyryla-mefodiia": {
+    "latitude": 50.417322,
+    "longitude": 25.743473,
+    "address": "вул. Кирила і Мефодія, 6–12, Дубно"
+  },
+  "lutska-brama": {
+    "latitude": 50.4186581,
+    "longitude": 25.7338444,
+    "address": "вул. Данила Галицького, 32, Дубно"
+  },
+  "meest-15-dubno": {
+    "latitude": 50.3923968,
+    "longitude": 25.7561222,
+    "address": "вул. Грушевського Михайла, 1А, Дубно (Rozetka,на касі)"
+  },
+  "meest-18-dubno": {
+    "latitude": 50.4093809,
+    "longitude": 25.7762513,
+    "address": "вул. Мирогощанська, 4, Дубно (Магазин Пивна Гавань, на касі)"
+  },
+  "meest-20-dubno": {
+    "latitude": 50.4204325,
+    "longitude": 25.746478,
+    "address": "вул. Замкова, 12А, Дубно (Магазин Пивна Гавань, на касі)"
+  },
+  "meest-21-dubno": {
+    "latitude": 50.4181843,
+    "longitude": 25.7400539,
+    "address": "вул. Галицького, 4, Дубно (магазин lifecell, на касі)"
+  },
+  "meest-23-dubno": {
+    "latitude": 50.4211514,
+    "longitude": 25.7403124,
+    "address": "вул. Скарбова, 12, Дубно (SNAP STORE)"
+  },
+  "meest-5-dubno": {
+    "latitude": 50.3927064,
+    "longitude": 25.7526424,
+    "address": "вул. Грушевського Михайла, 184, Дубно (магазин EcoPlast, на касі)"
+  },
+  "meest-6-dubno": {
+    "latitude": 50.3894471,
+    "longitude": 25.7551614,
+    "address": "вул. Грушевського Михайла, 88, Дубно (АЗК ОККО, на касі)"
+  },
+  "monastyr-karmelitek": {
+    "latitude": 50.4263697,
+    "longitude": 25.7417887,
+    "address": "вул. Тараса Шевченка, 51–54, Дубно"
+  },
+  "mykolaivskyi-sobor": {
+    "latitude": 50.4181843,
+    "longitude": 25.7400539,
+    "address": "вул. Данила Галицького, 28, Дубно"
+  },
+  "nova-poshta-poshtomat-26319-dubno": {
+    "latitude": 50.4097311,
+    "longitude": 25.7603503,
+    "address": "Дубно, Сурмичі, 68 (маг. АТБ)"
+  },
+  "nova-poshta-poshtomat-30930-dubno": {
+    "latitude": 50.3921884,
+    "longitude": 25.7577925,
+    "address": "Дубно, вул. Грушевського, 119 (Біля будинку)"
+  },
+  "nova-poshta-poshtomat-35424-dubno": {
+    "latitude": 50.419273,
+    "longitude": 25.745995,
+    "address": "Дубно, Свободи, 2 (маг. \"Spirit & Food\")"
+  },
+  "nova-poshta-poshtomat-35426-dubno": {
+    "latitude": 50.3979018,
+    "longitude": 25.757471,
+    "address": "Дубно, Грушевського, 160 (маг. \"Spirit & Food\")"
+  },
+  "nova-poshta-poshtomat-36028-dubno": {
+    "latitude": 50.3894471,
+    "longitude": 25.7551614,
+    "address": "Дубно, вул. Грушевського, 88, АЗС ОККО"
+  },
+  "nova-poshta-poshtomat-36172-dubno": {
+    "latitude": 50.3649662,
+    "longitude": 25.7597785,
+    "address": "Дубно, вул. Заводська, 8, біля магазину Spirit & foot"
+  },
+  "nova-poshta-poshtomat-40117-dubno": {
+    "latitude": 50.410734,
+    "longitude": 25.7769214,
+    "address": "Дубно, вул. Мирогощанська, 69 (Біля будинку)"
+  },
+  "nova-poshta-poshtomat-42610-dubno": {
+    "latitude": 50.4031759,
+    "longitude": 25.7624424,
+    "address": "Дубно, вул. Грушевського, 117А (В холі ПРАТ \"ДУБНОМОЛОКО\")"
+  },
+  "nova-poshta-poshtomat-42614-dubno": {
+    "latitude": 50.3958343,
+    "longitude": 25.7567526,
+    "address": "Дубно, вул. Грушевського, 172 (Біля маг. \"Траш\")"
+  },
+  "nova-poshta-poshtomat-42616-dubno": {
+    "latitude": 50.4173924,
+    "longitude": 25.7408362,
+    "address": "Дубно, вул. Стара, 1, біля відділення НП 4"
+  },
+  "nova-poshta-poshtomat-42617-dubno": {
+    "latitude": 50.3874687,
+    "longitude": 25.7521429,
+    "address": "Дубно, вул. Залізнична, 45, біля відділення №3"
+  },
+  "nova-poshta-poshtomat-42618-dubno": {
+    "latitude": 50.4211514,
+    "longitude": 25.7403124,
+    "address": "Дубно, вул. Скарбова, 12, біля відділення №2"
+  },
+  "nova-poshta-poshtomat-43306-dubno": {
+    "latitude": 50.4086614,
+    "longitude": 25.7653964,
+    "address": "Дубно, пров. Мирогощанський, 35 (Медичний центр \"ВІЗІЯ\")"
+  },
+  "nova-poshta-poshtomat-46346-dubno": {
+    "latitude": 50.3954448,
+    "longitude": 25.7615208,
+    "address": "Дубно, вул. Шептицького, 7 (Біля будинку)"
+  },
+  "nova-poshta-poshtomat-46882-dubno": {
+    "latitude": 50.4168206,
+    "longitude": 25.7168448,
+    "address": "Дубно, вул. Львівська, 4 (Біля будинку)"
+  },
+  "nova-poshta-poshtomat-49800-dubno": {
+    "latitude": 50.4135575,
+    "longitude": 25.7583917,
+    "address": "Дубно, вул. Сурмичі, 15 (Біля будинку)"
+  },
+  "nova-poshta-poshtomat-55271-dubno": {
+    "latitude": 50.3977631,
+    "longitude": 25.7701122,
+    "address": "Дубно, Семидубська, 103а (на закритій території ТОВ \"ГЮАЛОС\")"
+  },
+  "nova-poshta-poshtomat-5727-dubno": {
+    "latitude": 50.4176501,
+    "longitude": 25.7397889,
+    "address": "Дубно, Данила Галицького, 9 (маг. АТБ)"
+  },
+  "nova-poshta-poshtomat-59529-dubno": {
+    "latitude": 50.4022835,
+    "longitude": 25.7527933,
+    "address": "Дубно, вул. Петра Калнишевського, 8 (Біля будинку)"
+  },
+  "nova-poshta-poshtomat-62270-dubno": {
+    "latitude": 50.3930338,
+    "longitude": 25.7413447,
+    "address": "Дубно, Підборці, 180, На Звірогосподарстві (біля прохідної)"
+  },
+  "nova-poshta-poshtomat-62271-dubno": {
+    "latitude": 50.4067514,
+    "longitude": 25.7788532,
+    "address": "Дубно, вул. Мирогощанська, 11 (Біля маг. \"Promo\")"
+  },
+  "nova-poshta-poshtomat-6271-dubno": {
+    "latitude": 50.4079828,
+    "longitude": 25.7635808,
+    "address": "Дубно, Мирогощанська, 1 (маг. \"Аврора\")"
+  },
+  "nova-poshta-poshtomat-65678-dubno": {
+    "latitude": 50.4091504,
+    "longitude": 25.7142526,
+    "address": "Дубно, вул. Львівська, 71А (Біля Аптеки \"Здорова Родина\")"
+  },
+  "nova-poshta-poshtomat-65692-dubno": {
+    "latitude": 50.4039555,
+    "longitude": 25.7737908,
+    "address": "Дубно,вул. Гірницька, 50-А (біля маг. \"ЛісОк\")"
+  },
+  "nova-poshta-poshtomat-66047-dubno": {
+    "latitude": 50.4234922,
+    "longitude": 25.7430319,
+    "address": "Дубно, Шевченка, 1 А (Біля маг. Базилік)"
+  },
+  "nova-poshta-poshtomat-66048-dubno": {
+    "latitude": 50.3874509,
+    "longitude": 25.7529951,
+    "address": "Дубно, вул. Залізнична, 53 (Біля маг. \"Базилік\")"
+  },
+  "nova-poshta-poshtomat-66062-dubno": {
+    "latitude": 50.4057421,
+    "longitude": 25.7569478,
+    "address": "Дубно, вул. Морозенка, 20 (Біля маг. \"Юкон\")"
+  },
+  "nova-poshta-punkt-54410-dubno": {
+    "latitude": 50.4180749,
+    "longitude": 25.7465035,
+    "address": "Дубно, Пункт, Замкова, 27 (маг. медтехніки \"Toros Group\")"
+  },
+  "nova-poshta-viddilennya-1-dubno": {
+    "latitude": 50.4030882,
+    "longitude": 25.7648461,
+    "address": "Дубно, Семидубська, 16"
+  },
+  "nova-poshta-viddilennya-2-dubno": {
+    "latitude": 50.4211514,
+    "longitude": 25.7403124,
+    "address": "Дубно, Скарбова, 12, прим.103"
+  },
+  "nova-poshta-viddilennya-3-dubno": {
+    "latitude": 50.3874687,
+    "longitude": 25.7521429,
+    "address": "Дубно, Залізнична, 45"
+  },
+  "nova-poshta-viddilennya-4-dubno": {
+    "latitude": 50.4173924,
+    "longitude": 25.7408362,
+    "address": "Дубно, Стара, 1"
+  },
+  "pamyatnyk-shevchenku": {
+    "latitude": 50.4181843,
+    "longitude": 25.7400539,
+    "address": "вул. Данила Галицького (біля Будинку культури), Дубно"
+  },
+  "park-derevianykh-skulptur": {
+    "latitude": 50.4218,
+    "longitude": 25.7435,
+    "address": "вул. Тараса Шевченка (парк ім. Шевченка), Дубно"
+  },
+  "sadyba-shevchenka-10": {
+    "latitude": 50.422556,
+    "longitude": 25.744209,
+    "address": "вул. Тараса Шевченка, 10, Дубно"
+  },
+  "sadyba-shuvalovykh": {
+    "latitude": 50.399133,
+    "longitude": 25.755536,
+    "address": "вул. Михайла Грушевського, 104, Дубно"
+  },
+  "sobor-proroka-illii": {
+    "latitude": 50.4180814,
+    "longitude": 25.7378733,
+    "address": "вул. Данила Галицького, 13, Дубно"
+  },
+  "sobor-rizdva-bohorodytsi": {
+    "latitude": 50.3805289,
+    "longitude": 25.735943,
+    "address": "вул. Полуботка, 17, Дубно"
+  },
+  "spaso-preobrazhenska-tserkva": {
+    "latitude": 50.4166344,
+    "longitude": 25.7352451,
+    "address": "вул. Івана Франка, 21б / 30, Дубно"
+  },
+  "tarakanivskyi-fort": {
+    "latitude": 50.3629697,
+    "longitude": 25.7162056,
+    "address": "с. Тараканів (орієнтир траса М-06), біля Дубна"
+  },
+  "torhovi-budynky-drahomanova": {
+    "latitude": 50.420269,
+    "longitude": 25.743869,
+    "address": "вул. Михайла Драгоманова, 1, Дубно"
+  },
+  "ukrposhta-35601-dubno": {
+    "latitude": 50.3668162,
+    "longitude": 25.7608132,
+    "address": "пров. Центральний, 8, Дубно"
+  },
+  "ukrposhta-35602-dubno": {
+    "latitude": 50.386617,
+    "longitude": 25.742763,
+    "address": "пров. Залізничний, 2Б, Дубно"
+  },
+  "ukrposhta-35603-dubno": {
+    "latitude": 50.4181843,
+    "longitude": 25.7400539,
+    "address": "вул. Данила Галицького, 15, Дубно"
+  },
+  "ukrposhta-35604-dubno": {
+    "latitude": 50.4073605,
+    "longitude": 25.7621713,
+    "address": "вул. Михайла Грушевського, 134, Дубно"
+  },
+  "velyka-synahoha": {
+    "latitude": 50.4169655,
+    "longitude": 25.7444195,
+    "address": "вул. Кирила і Мефодія, 23, Дубно"
+  },
+  "yuriivska-tserkva": {
+    "latitude": 50.4155032,
+    "longitude": 25.7571668,
+    "address": "вул. Садова, 10, Дубно"
+  }
+}

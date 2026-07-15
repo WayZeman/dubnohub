@@ -1,103 +1,142 @@
-import Image from "next/image";
+import Link from "next/link";
+import type { Metadata } from "next";
+import { ArrowRight } from "lucide-react";
 
-export default function Home() {
+import { CategoryCard } from "@/components/category-card";
+import { HomeHero } from "@/components/home-hero";
+import { PlaceCard } from "@/components/place-card";
+import { Button } from "@/components/ui/button";
+import {
+  APP_CITY_LOCATIVE,
+  APP_DESCRIPTION,
+  APP_NAME,
+  APP_TAGLINE,
+} from "@/lib/constants";
+import { getCategories, getLatestPlaces, getTopPlaces } from "@/lib/queries";
+import { getDubnoWeather } from "@/lib/weather";
+
+export const metadata: Metadata = {
+  title: `${APP_NAME} — ${APP_TAGLINE}`,
+  description: APP_DESCRIPTION,
+};
+
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const [categories, latest, top, weather] = await Promise.all([
+    getCategories().catch(() => []),
+    getLatestPlaces(8).catch(() => []),
+    getTopPlaces(8).catch(() => []),
+    getDubnoWeather(),
+  ]);
+
+  const popular = categories.slice(0, 8);
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div>
+      <HomeHero weather={weather} />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <section className="page-shell section-pad">
+        <div className="mb-8 max-w-xl">
+          <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+            Що шукаєте
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Оберіть категорію — від памʼяток і пошти до кафе та лікарень{" "}
+            {APP_CITY_LOCATIVE}.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {popular.map((category) => (
+            <CategoryCard key={category.id} category={category} />
+          ))}
+        </div>
+        <div className="mt-8">
+          <Button asChild variant="outline">
+            <Link href="/categories">
+              Усі категорії
+              <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+        </div>
+      </section>
+
+      <section className="border-y border-border/60 bg-secondary/70 py-14 sm:py-16">
+        <div className="page-shell">
+          <div className="mb-8 flex items-end justify-between gap-4">
+            <div className="max-w-xl">
+              <p className="text-xs font-medium tracking-[0.16em] text-primary uppercase">
+                Рейтинг
+              </p>
+              <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                Варто відвідати
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/70 sm:text-base">
+                Місця з найвищим рейтингом у довіднику.
+              </p>
+            </div>
+            <Button asChild variant="outline" className="hidden shrink-0 border-border bg-card sm:inline-flex">
+              <Link href="/places?rating=4">
+                Більше
+                <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {top.map((place) => (
+              <PlaceCard key={place.id} place={place} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="page-shell section-pad">
+        <div className="mb-8 flex items-end justify-between gap-4">
+          <div className="max-w-xl">
+            <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+              Нещодавно додані
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              Нові точки, які щойно зʼявилися в каталозі.
+            </p>
+          </div>
+          <Button asChild variant="outline" className="shrink-0">
+            <Link href="/places">Усі місця</Link>
+          </Button>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {latest.map((place) => (
+            <PlaceCard key={place.id} place={place} />
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-primary">
+        <div className="page-shell flex flex-col items-start gap-6 py-14 sm:flex-row sm:items-center sm:justify-between sm:py-16">
+          <div className="max-w-lg">
+            <p className="text-xs font-medium tracking-[0.16em] text-primary-foreground/75 uppercase">
+              Навігація
+            </p>
+            <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight text-primary-foreground sm:text-3xl">
+              Усі точки на одній мапі
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-primary-foreground/85 sm:text-base">
+              Фільтруйте категорії й операторів пошти — і відкривайте потрібну
+              адресу за секунди.
+            </p>
+          </div>
+          <Button
+            asChild
+            size="lg"
+            className="h-11 shrink-0 bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+          >
+            <Link href="/map">
+              Відкрити мапу
+              <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+        </div>
+      </section>
     </div>
   );
 }
