@@ -39,6 +39,9 @@ export default async function EditPlacePage({ params }: PageProps) {
             slug: place.slug,
             description: place.description,
             categoryId: place.categoryId,
+            extraCategoryIds: place.categories
+              .map((link) => link.categoryId)
+              .filter((id) => id !== place.categoryId),
             address: place.address,
             latitude: place.latitude,
             longitude: place.longitude,

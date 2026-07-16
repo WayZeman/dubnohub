@@ -28,6 +28,7 @@ const ICON_SUGGESTIONS = [
   "Smile",
   "Landmark",
   "Castle",
+  "Church",
   "Car",
   "Fuel",
   "Building2",

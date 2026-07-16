@@ -16,7 +16,10 @@ function placeWhere(filters: PlaceFilters = {}): Prisma.PlaceWhereInput {
   const where: Prisma.PlaceWhereInput = {};
 
   if (filters.category) {
-    where.category = { slug: filters.category };
+    where.OR = [
+      { category: { slug: filters.category } },
+      { categories: { some: { category: { slug: filters.category } } } },
+    ];
   }
 
   if (filters.minRating != null && filters.minRating > 0) {
@@ -25,12 +28,18 @@ function placeWhere(filters: PlaceFilters = {}): Prisma.PlaceWhereInput {
 
   const q = filters.q?.trim();
   if (q) {
-    where.OR = [
+    const textOr: Prisma.PlaceWhereInput[] = [
       { title: { contains: q, mode: "insensitive" } },
       { address: { contains: q, mode: "insensitive" } },
       { description: { contains: q, mode: "insensitive" } },
       { category: { name: { contains: q, mode: "insensitive" } } },
+      {
+        categories: {
+          some: { category: { name: { contains: q, mode: "insensitive" } } },
+        },
+      },
     ];
+    where.AND = [...(where.AND ? (Array.isArray(where.AND) ? where.AND : [where.AND]) : []), { OR: textOr }];
   }
 
   return where;
@@ -54,13 +63,31 @@ const placeCardSelect = {
   _count: { select: { reviews: true } },
 } satisfies Prisma.PlaceSelect;
 
+async function categoryPlaceCount(categoryId: string) {
+  return prisma.place.count({
+    where: {
+      OR: [
+        { categoryId },
+        { categories: { some: { categoryId } } },
+      ],
+    },
+  });
+}
+
 export const getCategories = cache(
   unstable_cache(
-    async () =>
-      prisma.category.findMany({
+    async () => {
+      const categories = await prisma.category.findMany({
         orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-        include: { _count: { select: { places: true } } },
-      }),
+      });
+      const withCounts = await Promise.all(
+        categories.map(async (category) => ({
+          ...category,
+          _count: { places: await categoryPlaceCount(category.id) },
+        })),
+      );
+      return withCounts;
+    },
     ["categories"],
     { revalidate: 120, tags: ["categories"] }
   )
@@ -68,11 +95,14 @@ export const getCategories = cache(
 
 export const getCategoryBySlug = cache(async (slug: string) =>
   unstable_cache(
-    async () =>
-      prisma.category.findUnique({
-        where: { slug },
-        include: { _count: { select: { places: true } } },
-      }),
+    async () => {
+      const category = await prisma.category.findUnique({ where: { slug } });
+      if (!category) return null;
+      return {
+        ...category,
+        _count: { places: await categoryPlaceCount(category.id) },
+      };
+    },
     ["category-by-slug", slug],
     { revalidate: 120, tags: ["categories", `category:${slug}`] }
   )()
@@ -121,6 +151,13 @@ export const getPlaceBySlug = cache(async (slug: string) =>
         where: { slug },
         include: {
           category: true,
+          categories: {
+            include: {
+              category: {
+                select: { id: true, name: true, slug: true, icon: true },
+              },
+            },
+          },
           reviews: {
             orderBy: { createdAt: "desc" },
             include: {
@@ -145,7 +182,14 @@ export const getPlaceBySlug = cache(async (slug: string) =>
 export async function getPlaceById(id: string) {
   return prisma.place.findUnique({
     where: { id },
-    include: { category: true },
+    include: {
+      category: true,
+      categories: {
+        include: {
+          category: { select: { id: true, name: true, slug: true } },
+        },
+      },
+    },
   });
 }
 
@@ -154,7 +198,13 @@ export const getSimilarPlaces = cache(
     unstable_cache(
       async () =>
         prisma.place.findMany({
-          where: { categoryId, NOT: { id: placeId } },
+          where: {
+            NOT: { id: placeId },
+            OR: [
+              { categoryId },
+              { categories: { some: { categoryId } } },
+            ],
+          },
           orderBy: { rating: "desc" },
           take,
           select: placeCardSelect,
@@ -257,6 +307,11 @@ export async function getAllPlacesAdmin() {
     orderBy: { updatedAt: "desc" },
     include: {
       category: { select: { id: true, name: true, slug: true } },
+      categories: {
+        include: {
+          category: { select: { id: true, name: true, slug: true } },
+        },
+      },
       _count: { select: { reviews: true } },
     },
   });

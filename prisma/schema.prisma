@@ -66,24 +66,38 @@ model VerificationToken {
 }
 
 model Category {
-  id          String   @id @default(cuid())
+  id          String          @id @default(cuid())
   name        String
-  slug        String   @unique
-  icon        String   @default("MapPin")
-  description String?  @db.Text
-  sortOrder   Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  slug        String          @unique
+  icon        String          @default("MapPin")
+  description String?         @db.Text
+  sortOrder   Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  /// Primary category relation (backward-compatible “main” category)
   places      Place[]
+  /// Extra / multi category memberships
+  placeLinks  PlaceCategory[]
 
   @@index([sortOrder])
 }
 
+model PlaceCategory {
+  placeId    String
+  categoryId String
+  createdAt  DateTime @default(now())
+  place      Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([placeId, categoryId])
+  @@index([categoryId])
+}
+
 model Place {
-  id           String   @id @default(cuid())
+  id           String          @id @default(cuid())
   title        String
-  slug         String   @unique
-  description  String   @db.Text
+  slug         String          @unique
+  description  String          @db.Text
   categoryId   String
   address      String
   latitude     Float?
@@ -94,15 +108,16 @@ model Place {
   instagram    String?
   youtube      String?
   telegram     String?
-  workingHours String?  @db.Text
-  rating       Float    @default(0)
-  featured     Boolean  @default(false)
-  viewCount    Int      @default(0)
-  clickCount   Int      @default(0)
+  workingHours String?         @db.Text
+  rating       Float           @default(0)
+  featured     Boolean         @default(false)
+  viewCount    Int             @default(0)
+  clickCount   Int             @default(0)
   images       String[]
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  category     Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  category     Category        @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  categories   PlaceCategory[]
   reviews      Review[]
 
   @@index([categoryId])

@@ -19,6 +19,7 @@
     "db:import-industry": "tsx scripts/import-industry.ts",
     "db:import-medicine": "tsx scripts/import-medicine.ts",
     "db:import-food": "tsx scripts/import-food.ts",
+    "db:import-religion": "tsx scripts/import-religion.ts",
     "db:fix-school-names-photos": "tsx scripts/fix-school-names-photos.ts",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate"

@@ -41,6 +41,7 @@ export function PlaceForm({
     slug: string;
     description: string;
     categoryId: string;
+    extraCategoryIds?: string[];
     address: string;
     latitude: number | null;
     longitude: number | null;
@@ -62,6 +63,7 @@ export function PlaceForm({
       slug: initial?.slug ?? "",
       description: initial?.description ?? "",
       categoryId: initial?.categoryId ?? categories[0]?.id ?? "",
+      extraCategoryIds: initial?.extraCategoryIds ?? [],
       address: initial?.address ?? "",
       latitude: initial?.latitude ?? null,
       longitude: initial?.longitude ?? null,
@@ -77,6 +79,10 @@ export function PlaceForm({
   });
   const latitude = useWatch({ control: form.control, name: "latitude" });
   const longitude = useWatch({ control: form.control, name: "longitude" });
+  const primaryCategoryId = useWatch({
+    control: form.control,
+    name: "categoryId",
+  });
 
   async function onSubmit(values: PlaceInput) {
     const result = initial
@@ -112,7 +118,7 @@ export function PlaceForm({
           name="categoryId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Категорія</FormLabel>
+              <FormLabel>Основна категорія</FormLabel>
               <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -127,6 +133,42 @@ export function PlaceForm({
                   ))}
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="extraCategoryIds"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Додаткові категорії</FormLabel>
+              <div className="grid gap-2 rounded-xl border border-border/70 p-3 sm:grid-cols-2">
+                {categories
+                  .filter((category) => category.id !== primaryCategoryId)
+                  .map((category) => {
+                    const checked = field.value?.includes(category.id) ?? false;
+                    return (
+                      <label
+                        key={category.id}
+                        className="flex cursor-pointer items-center gap-2 text-sm"
+                      >
+                        <input
+                          type="checkbox"
+                          className="size-4 rounded border-border"
+                          checked={checked}
+                          onChange={(event) => {
+                            const next = new Set(field.value ?? []);
+                            if (event.target.checked) next.add(category.id);
+                            else next.delete(category.id);
+                            field.onChange([...next]);
+                          }}
+                        />
+                        {category.name}
+                      </label>
+                    );
+                  })}
+              </div>
               <FormMessage />
             </FormItem>
           )}

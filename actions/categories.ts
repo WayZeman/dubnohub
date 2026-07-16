@@ -94,7 +94,14 @@ export async function updateCategory(
 export async function deleteCategory(id: string): Promise<ActionResult> {
   try {
     await requireAdmin();
-    const count = await prisma.place.count({ where: { categoryId: id } });
+    const count = await prisma.place.count({
+      where: {
+        OR: [
+          { categoryId: id },
+          { categories: { some: { categoryId: id } } },
+        ],
+      },
+    });
     if (count > 0) {
       return {
         success: false,

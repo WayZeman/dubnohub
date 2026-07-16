@@ -28,7 +28,9 @@ export const placeSchema = z.object({
     .optional()
     .or(z.literal("")),
   description: z.string().trim().min(20, "Мінімум 20 символів"),
-  categoryId: z.string().cuid("Оберіть категорію"),
+  categoryId: z.string().cuid("Оберіть основну категорію"),
+  /** Additional categories besides the primary one */
+  extraCategoryIds: z.array(z.string().cuid()).optional().default([]),
   address: z.string().trim().min(3, "Вкажіть адресу").max(240),
   latitude: z.number().min(-90).max(90).optional().nullable(),
   longitude: z.number().min(-180).max(180).optional().nullable(),

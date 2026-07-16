@@ -2,6 +2,7 @@ import {
   Building2,
   Car,
   Castle,
+  Church,
   Coffee,
   Dumbbell,
   Factory,
@@ -31,6 +32,8 @@ function CategoryIcon({ name }: { name: string }) {
       return <Car className="size-5" aria-hidden />;
     case "Castle":
       return <Castle className="size-5" aria-hidden />;
+    case "Church":
+      return <Church className="size-5" aria-hidden />;
     case "Coffee":
       return <Coffee className="size-5" aria-hidden />;
     case "Dumbbell":

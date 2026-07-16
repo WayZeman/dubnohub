@@ -69,6 +69,14 @@ const categories = [
       "Поліклініки, ЦПМСД, амбулаторії та приватні медичні центри Дубна",
     sortOrder: 18,
   },
+  {
+    name: "Релігія",
+    slug: "religiia",
+    icon: "Church",
+    description:
+      "Храми, собори, костели, монастирі та молитовні доми Дубна",
+    sortOrder: 19,
+  },
 ];
 
 async function main() {
@@ -144,6 +152,12 @@ async function main() {
 
   console.log("Importing restaurants and cafes in Dubno…");
   execSync("npx tsx scripts/import-food.ts", {
+    stdio: "inherit",
+    env: process.env,
+  });
+
+  console.log("Importing religious sites in Dubno…");
+  execSync("npx tsx scripts/import-religion.ts", {
     stdio: "inherit",
     env: process.env,
   });

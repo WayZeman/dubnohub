@@ -24,8 +24,13 @@ export default async function AdminPlacesPage() {
             <div className="min-w-0">
               <p className="truncate font-medium">{place.title}</p>
               <p className="text-xs text-muted-foreground">
-                {place.category.name} · {place.rating.toFixed(1)}★ ·{" "}
-                {place._count.reviews} відгуків
+                {[
+                  place.category.name,
+                  ...place.categories
+                    .map((link) => link.category.name)
+                    .filter((name) => name !== place.category.name),
+                ].join(" · ")}{" "}
+                · {place.rating.toFixed(1)}★ · {place._count.reviews} відгуків
               </p>
             </div>
             <div className="flex gap-2">

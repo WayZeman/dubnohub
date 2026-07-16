@@ -42,6 +42,21 @@ function placeData(data: ReturnType<typeof placeSchema.parse>, slug: string) {
   };
 }
 
+function allCategoryIds(data: ReturnType<typeof placeSchema.parse>): string[] {
+  return Array.from(
+    new Set([data.categoryId, ...(data.extraCategoryIds ?? [])]),
+  );
+}
+
+async function syncPlaceCategories(placeId: string, categoryIds: string[]) {
+  await prisma.placeCategory.deleteMany({ where: { placeId } });
+  if (categoryIds.length === 0) return;
+  await prisma.placeCategory.createMany({
+    data: categoryIds.map((categoryId) => ({ placeId, categoryId })),
+    skipDuplicates: true,
+  });
+}
+
 export async function createPlace(
   raw: unknown
 ): Promise<ActionResult & { id?: string; slug?: string }> {
@@ -53,6 +68,7 @@ export async function createPlace(
     const place = await prisma.place.create({
       data: placeData(data, slug),
     });
+    await syncPlaceCategories(place.id, allCategoryIds(data));
 
     revalidatePath("/");
     revalidatePath("/places");
@@ -84,6 +100,7 @@ export async function updatePlace(
       where: { id },
       data: placeData(data, slug),
     });
+    await syncPlaceCategories(id, allCategoryIds(data));
 
     revalidatePath("/");
     revalidatePath("/places");

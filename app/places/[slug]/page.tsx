@@ -316,12 +316,26 @@ export default async function PlaceDetailPage({ params }: PageProps) {
             {!postal ? (
               <>
                 <p className="section-eyebrow">
-                  <Link
-                    href={`/categories/${place.category.slug}`}
-                    className="hover:text-foreground"
-                  >
-                    {place.category.name}
-                  </Link>
+                  <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
+                    {[
+                      place.category,
+                      ...place.categories
+                        .map((link) => link.category)
+                        .filter((c) => c.id !== place.category.id),
+                    ].map((category, index, list) => (
+                      <span key={category.id} className="inline-flex items-center gap-2">
+                        <Link
+                          href={`/categories/${category.slug}`}
+                          className="hover:text-foreground"
+                        >
+                          {category.name}
+                        </Link>
+                        {index < list.length - 1 ? (
+                          <span className="text-muted-foreground/50">·</span>
+                        ) : null}
+                      </span>
+                    ))}
+                  </span>
                 </p>
                 <h1 className="font-display wrap-break-word text-3xl font-medium tracking-tight text-balance sm:text-4xl lg:text-[2.6rem]">
                   {place.title}
