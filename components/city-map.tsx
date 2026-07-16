@@ -678,8 +678,8 @@ export function CityMap({
         aria-label="Мапа Дубна"
       />
 
-      {/* Desktop: side panel */}
-      <div className="city-map-filters absolute top-3 left-3 z-10 hidden w-[min(100%-1.5rem,17.5rem)] md:block md:left-4 md:top-4">
+      {/* Desktop / large tablet: side panel */}
+      <div className="city-map-filters absolute top-3 left-3 z-10 hidden w-[min(100%-1.5rem,17.5rem)] lg:top-4 lg:left-4 lg:block">
         <div className="mb-3 flex items-center gap-2">
           <Layers className="size-4 shrink-0 text-primary" />
           <p className="text-sm font-semibold text-foreground">Шари мапи</p>
@@ -695,26 +695,29 @@ export function CityMap({
         />
       </div>
 
-      {/* Mobile: bottom sheet — collapsed by default */}
+      {/* Phone / small tablet: bottom sheet, collapsed by default */}
       {layersOpen ? (
         <button
           type="button"
-          className="absolute inset-0 z-15 bg-black/20 md:hidden"
-          aria-label="Закрити шари"
+          className="absolute inset-0 z-20 bg-black/25 lg:hidden"
+          aria-label="Сховати шари"
           onClick={() => setLayersOpen(false)}
         />
       ) : null}
 
       <div
         className={cn(
-          "absolute inset-x-0 bottom-0 z-20 md:hidden",
-          "pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+          "z-30 lg:hidden",
+          fullHeight || expanded
+            ? "fixed inset-x-0 bottom-0"
+            : "absolute inset-x-0 bottom-0",
+          "px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-1"
         )}
       >
         <div
           className={cn(
-            "city-map-filters-sheet mx-2 overflow-hidden rounded-t-2xl border border-border bg-card shadow-[0_-8px_28px_oklch(0.28_0.04_155/0.14)] sm:mx-3",
-            layersOpen && "rounded-2xl"
+            "city-map-filters-sheet overflow-hidden rounded-2xl border border-border/80 bg-card shadow-[0_-10px_32px_oklch(0.28_0.04_155/0.18)]",
+            "ring-1 ring-black/5"
           )}
         >
           <button
@@ -723,29 +726,32 @@ export function CityMap({
               setLayersOpen((open) => !open);
               setSettingsOpen(false);
             }}
-            className="relative flex w-full items-center gap-2.5 px-3.5 pt-4 pb-3 text-left active:bg-secondary/50"
+            className="relative flex min-h-14 w-full items-center gap-3 px-4 py-3 text-left active:bg-secondary/60"
             aria-expanded={layersOpen}
             aria-controls="map-layers-panel"
           >
             <span
-              className="absolute top-1.5 left-1/2 h-1 w-9 -translate-x-1/2 rounded-full bg-border"
+              className="absolute top-2 left-1/2 h-1 w-10 -translate-x-1/2 rounded-full bg-muted-foreground/35"
               aria-hidden
             />
-            <Layers className="size-4 shrink-0 text-primary" />
-            <span className="min-w-0 flex-1">
-              <span className="block text-sm font-semibold text-foreground">
+            <span className="mt-1 inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+              <Layers className="size-5" />
+            </span>
+            <span className="mt-1 min-w-0 flex-1">
+              <span className="block text-[15px] font-semibold text-foreground">
                 Шари мапи
               </span>
               <span className="block text-xs text-muted-foreground">
-                {visibleCount} на мапі
-                {layersOpen ? " · торкніться, щоб згорнути" : " · розгорнути"}
+                {layersOpen
+                  ? "Натисніть, щоб сховати"
+                  : `${visibleCount} точок · відкрити фільтри`}
               </span>
             </span>
-            <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground">
+            <span className="mt-1 inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-foreground">
               {layersOpen ? (
-                <ChevronDown className="size-5" />
+                <ChevronDown className="size-5" strokeWidth={2.25} />
               ) : (
-                <ChevronUp className="size-5" />
+                <ChevronUp className="size-5" strokeWidth={2.25} />
               )}
             </span>
           </button>
@@ -753,9 +759,9 @@ export function CityMap({
           <div
             id="map-layers-panel"
             className={cn(
-              "overflow-y-auto overscroll-contain px-3.5 transition-[max-height,opacity,padding] duration-300 ease-out",
+              "overflow-y-auto overscroll-contain border-t border-border/60 px-3 transition-[max-height,opacity] duration-300 ease-out",
               layersOpen
-                ? "max-h-[min(42svh,22rem)] opacity-100 pb-3.5"
+                ? "max-h-[min(48svh,24rem)] opacity-100 py-3"
                 : "pointer-events-none max-h-0 opacity-0"
             )}
             aria-hidden={!layersOpen}
@@ -774,8 +780,8 @@ export function CityMap({
         ref={settingsRef}
         className={cn(
           "absolute right-3 z-10 flex flex-col items-end gap-2 sm:right-4",
-          "bottom-[calc(4.25rem+env(safe-area-inset-bottom))] md:bottom-4",
-          layersOpen && "max-md:bottom-[min(48svh,24rem)]"
+          "bottom-[calc(5.5rem+env(safe-area-inset-bottom))] lg:bottom-4",
+          layersOpen && "max-lg:bottom-[min(56svh,28rem)]"
         )}
       >
         {settingsOpen ? (
@@ -891,7 +897,7 @@ export function CityMap({
 
         <div className="flex items-end gap-2">
           <div
-            className="city-map-scale pointer-events-none hidden select-none rounded-lg border border-border bg-card px-2.5 py-2 shadow-md sm:block"
+            className="city-map-scale pointer-events-none hidden select-none rounded-lg border border-border bg-card px-2.5 py-2 shadow-md lg:block"
             aria-hidden
           >
             <div
