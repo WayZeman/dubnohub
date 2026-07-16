@@ -142,6 +142,12 @@ async function main() {
     env: process.env,
   });
 
+  console.log("Importing restaurants and cafes in Dubno…");
+  execSync("npx tsx scripts/import-food.ts", {
+    stdio: "inherit",
+    env: process.env,
+  });
+
   const placeCount = await prisma.place.count();
   console.log(`Done: ${categories.length} categories, ${placeCount} places`);
 }
