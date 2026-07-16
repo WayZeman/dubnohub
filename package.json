@@ -17,6 +17,7 @@
     "db:import-landmarks": "tsx scripts/import-landmarks.ts",
     "db:import-schools": "tsx scripts/import-schools.ts",
     "db:import-industry": "tsx scripts/import-industry.ts",
+    "db:import-medicine": "tsx scripts/import-medicine.ts",
     "db:fix-school-names-photos": "tsx scripts/fix-school-names-photos.ts",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate"

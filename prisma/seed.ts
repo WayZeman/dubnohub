@@ -61,6 +61,14 @@ const categories = [
       "Виробничі підприємства Дубна: харчова, текстильна, скляна, хімічна промисловість та інше",
     sortOrder: 17,
   },
+  {
+    name: "Медицина",
+    slug: "medycyna",
+    icon: "Hospital",
+    description:
+      "Поліклініки, ЦПМСД, амбулаторії та приватні медичні центри Дубна",
+    sortOrder: 18,
+  },
 ];
 
 async function main() {
@@ -124,6 +132,12 @@ async function main() {
 
   console.log("Importing industry enterprises in Dubno…");
   execSync("npx tsx scripts/import-industry.ts", {
+    stdio: "inherit",
+    env: process.env,
+  });
+
+  console.log("Importing medical facilities in Dubno…");
+  execSync("npx tsx scripts/import-medicine.ts", {
     stdio: "inherit",
     env: process.env,
   });
