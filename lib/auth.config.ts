@@ -1,11 +1,18 @@
 import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 
+const authSecret = process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET;
+const productionAuthBase = "https://dubnohub.vercel.app/api/auth";
+
 export const authConfig = {
+  // Required for stable JWT/cookie encryption across deployments.
+  secret: authSecret,
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      redirectProxyUrl:
+        process.env.VERCEL_ENV === "production" ? productionAuthBase : undefined,
       allowDangerousEmailAccountLinking: true,
       authorization: {
         params: {

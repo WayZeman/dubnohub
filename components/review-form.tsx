@@ -12,39 +12,19 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
-export function ReviewForm({
+function ReviewEditor({
   placeId,
-  placeSlug,
-  initial,
+  seed,
+  hasExisting,
 }: {
   placeId: string;
-  placeSlug: string;
-  initial?: { rating: number; comment: string } | null;
+  seed: { rating: number; comment: string } | null;
+  hasExisting: boolean;
 }) {
-  const { data: session, status } = useSession();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [rating, setRating] = useState(initial?.rating ?? 5);
-  const [comment, setComment] = useState(initial?.comment ?? "");
-
-  if (status === "loading") {
-    return <div className="h-32 animate-pulse rounded-2xl bg-muted" />;
-  }
-
-  if (!session?.user) {
-    return (
-      <div className="rounded-2xl border border-border/70 bg-card p-5 text-sm text-muted-foreground">
-        Щоб залишити відгук,{" "}
-        <Link
-          href={`/login?callbackUrl=${encodeURIComponent(`/places/${placeSlug}`)}`}
-          className="text-primary underline"
-        >
-          увійдіть через Google
-        </Link>
-        .
-      </div>
-    );
-  }
+  const [rating, setRating] = useState(seed?.rating ?? 5);
+  const [comment, setComment] = useState(seed?.comment ?? "");
 
   return (
     <form
@@ -94,8 +74,60 @@ export function ReviewForm({
         minLength={5}
       />
       <Button type="submit" disabled={pending}>
-        {pending ? "Збереження…" : initial ? "Оновити відгук" : "Надіслати відгук"}
+        {pending
+          ? "Збереження…"
+          : hasExisting
+            ? "Оновити відгук"
+            : "Надіслати відгук"}
       </Button>
     </form>
+  );
+}
+
+export function ReviewForm({
+  placeId,
+  placeSlug,
+  initial,
+  existingReviews = [],
+}: {
+  placeId: string;
+  placeSlug: string;
+  initial?: { rating: number; comment: string } | null;
+  existingReviews?: { userId: string; rating: number; comment: string }[];
+}) {
+  const { data: session, status } = useSession();
+
+  const fromSession = session?.user?.id
+    ? existingReviews.find((review) => review.userId === session.user.id)
+    : null;
+  const seed = initial ?? fromSession ?? null;
+  const hasExisting = Boolean(seed);
+
+  if (status === "loading") {
+    return <div className="h-32 animate-pulse rounded-2xl bg-muted" />;
+  }
+
+  if (!session?.user) {
+    return (
+      <div className="rounded-2xl border border-border/70 bg-card p-5 text-sm text-muted-foreground">
+        Щоб залишити відгук,{" "}
+        <Link
+          href={`/login?callbackUrl=${encodeURIComponent(`/places/${placeSlug}`)}`}
+          className="text-primary underline"
+        >
+          увійдіть через Google
+        </Link>
+        .
+      </div>
+    );
+  }
+
+  return (
+    <ReviewEditor
+      key={session.user.id}
+      placeId={placeId}
+      seed={seed}
+      hasExisting={hasExisting}
+    />
   );
 }

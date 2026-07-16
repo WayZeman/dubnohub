@@ -10,6 +10,8 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export const revalidate = 120;
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {

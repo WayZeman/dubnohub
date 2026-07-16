@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { signIn } from "@/lib/auth";
 
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/session";
 import { APP_NAME } from "@/lib/constants";
+
+const PRODUCTION_CANONICAL_URL = "https://dubnohub.vercel.app";
 
 export const metadata: Metadata = {
   title: "Увійти",
@@ -17,6 +20,27 @@ type PageProps = {
 export default async function LoginPage({ searchParams }: PageProps) {
   const user = await getCurrentUser();
   const { callbackUrl } = await searchParams;
+  const canonicalUrl =
+    process.env.VERCEL_ENV === "production"
+      ? PRODUCTION_CANONICAL_URL
+      : process.env.AUTH_URL ??
+        process.env.NEXTAUTH_URL ??
+        process.env.NEXT_PUBLIC_APP_URL;
+  const requestHeaders = await headers();
+  const requestHost =
+    requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+
+  if (process.env.VERCEL_ENV === "production" && canonicalUrl && requestHost) {
+    const canonical = new URL(canonicalUrl);
+    if (requestHost !== canonical.host) {
+      const target = new URL("/login", canonical);
+      if (callbackUrl) {
+        target.searchParams.set("callbackUrl", callbackUrl);
+      }
+      redirect(target.toString());
+    }
+  }
+
   if (user) redirect(callbackUrl || "/profile");
 
   return (

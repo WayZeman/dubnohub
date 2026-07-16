@@ -20,7 +20,8 @@ export const metadata: Metadata = {
   description: APP_DESCRIPTION,
 };
 
-export const dynamic = "force-dynamic";
+/** Cache homepage for speed; weather/DB stay fresh enough via short revalidate. */
+export const revalidate = 120;
 
 export default async function HomePage() {
   const [categories, latest, top, weather] = await Promise.all([
@@ -36,9 +37,10 @@ export default async function HomePage() {
     <div>
       <HomeHero weather={weather} />
 
-      <section className="page-shell section-pad">
-        <div className="mb-8 max-w-xl">
-          <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+      <section id="katalog" className="page-shell section-pad scroll-mt-20">
+        <div className="mb-9 max-w-xl">
+          <p className="section-eyebrow">Каталог</p>
+          <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
             Що шукаєте
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -51,8 +53,8 @@ export default async function HomePage() {
             <CategoryCard key={category.id} category={category} />
           ))}
         </div>
-        <div className="mt-8">
-          <Button asChild variant="outline">
+        <div className="mt-9">
+          <Button asChild variant="outline" className="h-10">
             <Link href="/categories">
               Усі категорії
               <ArrowRight className="size-4" />
@@ -61,21 +63,23 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-border/60 bg-secondary/70 py-14 sm:py-16">
+      <section className="border-y border-border/50 bg-secondary/55 py-14 sm:py-16">
         <div className="page-shell">
-          <div className="mb-8 flex items-end justify-between gap-4">
+          <div className="mb-9 flex items-end justify-between gap-4">
             <div className="max-w-xl">
-              <p className="text-xs font-medium tracking-[0.16em] text-primary uppercase">
-                Рейтинг
-              </p>
+              <p className="section-eyebrow">Рейтинг</p>
               <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
                 Варто відвідати
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-foreground/70 sm:text-base">
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
                 Місця з найвищим рейтингом у довіднику.
               </p>
             </div>
-            <Button asChild variant="outline" className="hidden shrink-0 border-border bg-card sm:inline-flex">
+            <Button
+              asChild
+              variant="outline"
+              className="hidden h-10 shrink-0 border-border/80 bg-card sm:inline-flex"
+            >
               <Link href="/places?rating=4">
                 Більше
                 <ArrowRight className="size-4" />
@@ -83,24 +87,25 @@ export default async function HomePage() {
             </Button>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {top.map((place) => (
-              <PlaceCard key={place.id} place={place} />
+            {top.map((place, i) => (
+              <PlaceCard key={place.id} place={place} priority={i < 4} />
             ))}
           </div>
         </div>
       </section>
 
       <section className="page-shell section-pad">
-        <div className="mb-8 flex items-end justify-between gap-4">
+        <div className="mb-9 flex items-end justify-between gap-4">
           <div className="max-w-xl">
-            <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+            <p className="section-eyebrow">Оновлення</p>
+            <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
               Нещодавно додані
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
               Нові точки, які щойно зʼявилися в каталозі.
             </p>
           </div>
-          <Button asChild variant="outline" className="shrink-0">
+          <Button asChild variant="outline" className="h-10 shrink-0">
             <Link href="/places">Усі місця</Link>
           </Button>
         </div>
@@ -111,16 +116,24 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="bg-primary">
-        <div className="page-shell flex flex-col items-start gap-6 py-14 sm:flex-row sm:items-center sm:justify-between sm:py-16">
+      <section className="relative overflow-hidden bg-primary">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.12]"
+          style={{
+            backgroundImage:
+              "radial-gradient(ellipse 70% 80% at 90% 20%, white, transparent)",
+          }}
+          aria-hidden
+        />
+        <div className="page-shell relative flex flex-col items-start gap-6 py-14 sm:flex-row sm:items-center sm:justify-between sm:py-16">
           <div className="max-w-lg">
-            <p className="text-xs font-medium tracking-[0.16em] text-primary-foreground/75 uppercase">
+            <p className="text-xs font-semibold tracking-[0.16em] text-primary-foreground/70 uppercase">
               Навігація
             </p>
             <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight text-primary-foreground sm:text-3xl">
               Усі точки на одній мапі
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-primary-foreground/85 sm:text-base">
+            <p className="mt-2 text-sm leading-relaxed text-primary-foreground/80 sm:text-base">
               Фільтруйте категорії й операторів пошти — і відкривайте потрібну
               адресу за секунди.
             </p>

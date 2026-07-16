@@ -383,9 +383,17 @@ export function CityMap({
   const [scaleBar, setScaleBar] = useState({ label: "100 м", width: 72 });
   const basemapRef = useRef<MapBasemap>("streets");
 
-  pointsRef.current = points;
-  activeRef.current = active;
-  basemapRef.current = basemap;
+  useEffect(() => {
+    pointsRef.current = points;
+  }, [points]);
+
+  useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
+
+  useEffect(() => {
+    basemapRef.current = basemap;
+  }, [basemap]);
 
   const visibleCount = useMemo(
     () => points.filter((p) => isMapPointVisible(p, active)).length,
@@ -486,6 +494,7 @@ export function CityMap({
     let cancelled = false;
     let resizeObserver: ResizeObserver | undefined;
     let interactionsBound = false;
+    const markers = markersRef.current;
 
     const initMap = () => {
       if (cancelled || mapRef.current || !containerRef.current) return;
@@ -616,7 +625,7 @@ export function CityMap({
       resizeObserver?.disconnect();
       popupRef.current?.remove();
       userMarkerRef.current?.remove();
-      clearMarkersImmediate(markersRef.current);
+      clearMarkersImmediate(markers);
       mapRef.current?.remove();
       mapRef.current = null;
     };
@@ -644,7 +653,7 @@ export function CityMap({
       className={cn(
         "city-map-shell relative overflow-hidden bg-secondary/30",
         shellHeight,
-        expanded && !fullHeight && "fixed inset-0 z-[60] h-svh",
+        expanded && !fullHeight && "fixed inset-0 z-60 h-svh",
         className
       )}
     >

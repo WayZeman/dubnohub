@@ -46,8 +46,9 @@ export default async function EditPlacePage({ params }: PageProps) {
             website: place.website,
             facebook: place.facebook,
             instagram: place.instagram,
+            youtube: place.youtube,
+            telegram: place.telegram,
             workingHours: place.workingHours,
-            featured: place.featured,
             images: place.images,
           }}
         />

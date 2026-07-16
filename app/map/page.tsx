@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { CityMapSection } from "@/components/city-map-section";
 import { APP_CITY } from "@/lib/constants";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 120;
 
 export const metadata: Metadata = {
   title: `Мапа ${APP_CITY}`,

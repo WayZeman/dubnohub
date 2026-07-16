@@ -75,11 +75,67 @@ export const MANUAL_COORDS: Record<
     latitude: 50.3894471,
     longitude: 25.7551614,
   },
-  // Educational (OSM gaps / square names)
+  // Educational / landmarks (verified OSM / zabytki / Wikidata — 2026-07 audit)
   "budynok-ditei-molodi-dubno": {
-    latitude: 50.4188699,
-    longitude: 25.7440885,
+    latitude: 50.418893,
+    longitude: 25.744262,
   },
+  "tsentr-natsionalno-patriotychnoho-vykhovannia-dubno": {
+    latitude: 50.418893,
+    longitude: 25.744262,
+  },
+  "kostel-yana-nepomuka": {
+    latitude: 50.420341,
+    longitude: 25.7433243,
+  },
+  "medychnyi-koledzh-dubno": {
+    latitude: 50.42048,
+    longitude: 25.74412,
+  },
+  "mykolaivskyi-sobor": {
+    latitude: 50.419084,
+    longitude: 25.7347093,
+  },
+  "pamyatnyk-shevchenku": {
+    latitude: 50.418528,
+    longitude: 25.737464,
+  },
+  "spaso-preobrazhenska-tserkva": {
+    latitude: 50.4146407,
+    longitude: 25.7348006,
+  },
+  "dubenskyi-zamok": { latitude: 50.41954, longitude: 25.74808 },
+  "kraieznavchyi-muzei": { latitude: 50.41954, longitude: 25.74808 },
+  "litsey-3-dubno": { latitude: 50.4178663, longitude: 25.7374917 },
+  // Gas stations (OSM amenity=fuel centers — 2026-07)
+  "okko-17-dubno": { latitude: 50.3924392, longitude: 25.755127 },
+  "wog-946-dubno": { latitude: 50.4284953, longitude: 25.741306 },
+  "ukrnafta-17-031-dubno": { latitude: 50.3852987, longitude: 25.7383528 },
+  "ukrnafta-17-012-dubno": { latitude: 50.3921326, longitude: 25.7567245 },
+  "upg-shevchenka-66-dubno": { latitude: 50.4274003, longitude: 25.743093 },
+  "olas-zamkova-dubno": { latitude: 50.4172918, longitude: 25.7512427 },
+  // Government institutions (Google Maps place/address pins — 2026-07)
+  "miska-rada-dubno": { latitude: 50.4208735, longitude: 25.7452898 },
+  "cnap-dubno": { latitude: 50.4208735, longitude: 25.7452898 },
+  "cnap-vrm-dubno": { latitude: 50.418555, longitude: 25.7437272 },
+  "soczahyst-dubno": { latitude: 50.418555, longitude: 25.7437272 },
+  "rda-dubno": { latitude: 50.4182197, longitude: 25.7357284 },
+  "rayonna-rada-dubno": { latitude: 50.4182197, longitude: 25.7357284 },
+  "sud-dubno": { latitude: 50.4187959, longitude: 25.7379333 },
+  "policia-dubno": { latitude: 50.4218685, longitude: 25.7435122 },
+  "prokuratura-dubno": { latitude: 50.4175387, longitude: 25.7345523 },
+  "podatkova-dubno": { latitude: 50.4021606, longitude: 25.75914 },
+  "pensiynyi-fond-dubno": { latitude: 50.4237165, longitude: 25.7429349 },
+  "tck-dubno": { latitude: 50.4216657, longitude: 25.7424975 },
+  "dsns-dubno": { latitude: 50.3922105, longitude: 25.7578057 },
+  "racs-dubno": { latitude: 50.4189028, longitude: 25.7440387 },
+  "notarialna-1-dubno": { latitude: 50.4210928, longitude: 25.7411074 },
+  "notarialna-2-dubno": { latitude: 50.4210537, longitude: 25.744658 },
+  "dvs-dubno": { latitude: 50.4021606, longitude: 25.75914 },
+  "tersentr-dubno": { latitude: 50.3960805, longitude: 25.757607 },
+  "upravlinnya-osvity-dubno": { latitude: 50.4204222, longitude: 25.7393433 },
+  "arkhiv-dubno": { latitude: 50.4077502, longitude: 25.7739346 },
+  "tsentr-sssdm-dubno": { latitude: 50.4210537, longitude: 25.744658 },
 };
 
 export function inDubnoBbox(lat: number, lng: number): boolean {

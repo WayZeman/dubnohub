@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Cloud,
   CloudDrizzle,
@@ -34,21 +32,21 @@ export function HomeWeather({ weather }: HomeWeatherProps) {
 
   return (
     <p
-      className="inline-flex items-center gap-2.5 text-base text-white/80 sm:gap-3 sm:text-lg"
+      className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/25 px-3.5 py-1.5 text-sm text-white/85 backdrop-blur-sm sm:gap-2.5 sm:text-base"
       aria-label={`Погода: ${weather.temperature}°, ${weather.label}`}
     >
       <Icon
-        className="size-5 shrink-0 opacity-90 sm:size-6"
+        className="size-4 shrink-0 opacity-90 sm:size-5"
         strokeWidth={1.5}
         aria-hidden
       />
-      <span className="tabular-nums text-lg font-semibold tracking-tight text-white sm:text-xl">
+      <span className="tabular-nums font-semibold tracking-tight text-white">
         {weather.temperature}°
       </span>
-      <span className="text-white/40" aria-hidden>
+      <span className="text-white/35" aria-hidden>
         ·
       </span>
-      <span className="font-medium text-white/85">{weather.label}</span>
+      <span className="font-medium text-white/80">{weather.label}</span>
     </p>
   );
 }

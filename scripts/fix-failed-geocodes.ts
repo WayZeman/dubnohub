@@ -1,6 +1,4 @@
 import { config } from "dotenv";
-import { readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { PrismaClient } from "@prisma/client";
 
 config({ path: ".env.local" });

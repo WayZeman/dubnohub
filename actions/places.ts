@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
 import { requireEditor } from "@/lib/session";
@@ -9,7 +9,7 @@ import { slugify } from "@/lib/constants";
 import type { ActionResult } from "@/actions/types";
 
 async function uniquePlaceSlug(base: string, excludeId?: string) {
-  let slug = slugify(base) || "place";
+  const slug = slugify(base) || "place";
   let i = 0;
   while (true) {
     const candidate = i === 0 ? slug : `${slug}-${i}`;
@@ -35,8 +35,9 @@ function placeData(data: ReturnType<typeof placeSchema.parse>, slug: string) {
     website: data.website?.trim() || null,
     facebook: data.facebook?.trim() || null,
     instagram: data.instagram?.trim() || null,
+    youtube: data.youtube?.trim() || null,
+    telegram: data.telegram?.trim() || null,
     workingHours: data.workingHours?.trim() || null,
-    featured: data.featured ?? false,
     images: parseCommaList(data.images),
   };
 }
@@ -57,6 +58,10 @@ export async function createPlace(
     revalidatePath("/places");
     revalidatePath("/categories");
     revalidatePath("/admin/places");
+
+    revalidateTag("places", "max");
+    revalidateTag("map", "max");
+    revalidateTag("categories", "max");
     return { success: true, id: place.id, slug: place.slug };
   } catch (error) {
     return {
@@ -85,6 +90,10 @@ export async function updatePlace(
     revalidatePath(`/places/${slug}`);
     revalidatePath("/categories");
     revalidatePath("/admin/places");
+
+    revalidateTag("places", "max");
+    revalidateTag("map", "max");
+    revalidateTag("categories", "max");
     return { success: true };
   } catch (error) {
     return {
@@ -102,6 +111,10 @@ export async function deletePlace(id: string): Promise<ActionResult> {
     revalidatePath("/places");
     revalidatePath("/categories");
     revalidatePath("/admin/places");
+
+    revalidateTag("places", "max");
+    revalidateTag("map", "max");
+    revalidateTag("categories", "max");
     return { success: true };
   } catch (error) {
     return {

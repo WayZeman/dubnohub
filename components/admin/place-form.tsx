@@ -1,21 +1,20 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import { createPlace, updatePlace } from "@/actions/places";
+import { PlaceMapPicker } from "@/components/admin/place-map-picker";
 import { placeSchema, type PlaceInput } from "@/lib/validations";
 import { ImageUploader } from "@/components/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -49,8 +48,9 @@ export function PlaceForm({
     website: string | null;
     facebook: string | null;
     instagram: string | null;
+    youtube: string | null;
+    telegram: string | null;
     workingHours: string | null;
-    featured: boolean;
     images: string[];
   };
 }) {
@@ -69,11 +69,14 @@ export function PlaceForm({
       website: initial?.website ?? "",
       facebook: initial?.facebook ?? "",
       instagram: initial?.instagram ?? "",
+      youtube: initial?.youtube ?? "",
+      telegram: initial?.telegram ?? "",
       workingHours: initial?.workingHours ?? "",
-      featured: initial?.featured ?? false,
       images: initial?.images.join(", ") ?? "",
     },
   });
+  const latitude = useWatch({ control: form.control, name: "latitude" });
+  const longitude = useWatch({ control: form.control, name: "longitude" });
 
   async function onSubmit(values: PlaceInput) {
     const result = initial
@@ -154,6 +157,20 @@ export function PlaceForm({
             </FormItem>
           )}
         />
+        <FormItem>
+          <FormLabel>Точка на карті</FormLabel>
+          <PlaceMapPicker
+            latitude={latitude ?? null}
+            longitude={longitude ?? null}
+            onPick={({ latitude, longitude }) => {
+              form.setValue("latitude", latitude, { shouldDirty: true, shouldValidate: true });
+              form.setValue("longitude", longitude, {
+                shouldDirty: true,
+                shouldValidate: true,
+              });
+            }}
+          />
+        </FormItem>
         <div className="grid gap-4 sm:grid-cols-2">
           <FormField
             control={form.control}
@@ -255,6 +272,34 @@ export function PlaceForm({
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="youtube"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>YouTube</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="telegram"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Telegram</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <FormField
           control={form.control}
@@ -287,29 +332,11 @@ export function PlaceForm({
                   }
                   onChange={(urls) => field.onChange(urls.join(", "))}
                   multiple
-                  maxFiles={8}
+                  maxFiles={3}
                   label="Додати фото"
                 />
               </FormControl>
               <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="featured"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between rounded-xl border border-border/60 px-4 py-3">
-              <div>
-                <FormLabel>Рекомендоване місце</FormLabel>
-                <FormDescription>Показувати в топі на головній</FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
             </FormItem>
           )}
         />

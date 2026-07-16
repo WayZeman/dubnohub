@@ -36,9 +36,7 @@ export default async function PlacesPage({ searchParams }: PageProps) {
   return (
     <div className="page-shell section-pad space-y-8">
       <header className="space-y-2">
-        <p className="text-xs font-medium tracking-[0.16em] text-primary uppercase">
-          Каталог
-        </p>
+        <p className="section-eyebrow">Каталог</p>
         <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
           Місця {APP_CITY_GENITIVE}
         </h1>

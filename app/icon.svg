@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="dubnohub-gradient" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1d4ed8" />
+      <stop offset="1" stop-color="#0f766e" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#dubnohub-gradient)" />
+  <path
+    d="M20 16h13.5C42.06 16 48 22.27 48 32s-5.94 16-14.5 16H20zm11.94 24.52c4.78 0 7.7-3.1 7.7-8.52s-2.92-8.52-7.7-8.52h-3.6v17.04z"
+    fill="#fff"
+  />
+</svg>

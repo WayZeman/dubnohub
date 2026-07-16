@@ -13,31 +13,46 @@ const categories = [
   { name: "Банки", slug: "banky", icon: "Landmark", description: "Банки та відділення", sortOrder: 6 },
   { name: "Автомийки", slug: "avtomyyky", icon: "Car", description: "Автомийки", sortOrder: 7 },
   {
+    name: "Заправки",
+    slug: "zapravky",
+    icon: "Fuel",
+    description: "АЗС і автозаправні комплекси Дубна",
+    sortOrder: 8,
+  },
+  {
     name: "Навчальні заклади",
     slug: "navchalni-zaklady",
     icon: "GraduationCap",
     description:
       "Школи, садочки, ліцеї, коледжі, університетські підрозділи та позашкільна освіта Дубна",
-    sortOrder: 8,
+    sortOrder: 9,
   },
   {
     name: "Памʼятки",
     slug: "pamyatky",
     icon: "Castle",
     description: "Замки, храми, памʼятники та історичні будівлі Дубна",
-    sortOrder: 9,
+    sortOrder: 10,
   },
-  { name: "Парки", slug: "parky", icon: "Trees", description: "Парки та місця відпочинку Дубна", sortOrder: 10 },
-  { name: "Магазини", slug: "magazyny", icon: "ShoppingBag", description: "Супермаркети та магазини", sortOrder: 11 },
+  { name: "Парки", slug: "parky", icon: "Trees", description: "Парки та місця відпочинку Дубна", sortOrder: 11 },
+  { name: "Магазини", slug: "magazyny", icon: "ShoppingBag", description: "Супермаркети та магазини", sortOrder: 12 },
   {
     name: "Пошта",
     slug: "poshta",
     icon: "Mail",
     description: "Відділення та поштомати Нової Пошти та інших операторів",
-    sortOrder: 12,
+    sortOrder: 13,
   },
-  { name: "Спортзали", slug: "sportzaly", icon: "Dumbbell", description: "Спорт і фітнес", sortOrder: 13 },
-  { name: "Салони краси", slug: "salony-krasy", icon: "Sparkles", description: "Салони краси", sortOrder: 14 },
+  { name: "Спортзали", slug: "sportzaly", icon: "Dumbbell", description: "Спорт і фітнес", sortOrder: 14 },
+  { name: "Салони краси", slug: "salony-krasy", icon: "Sparkles", description: "Салони краси", sortOrder: 15 },
+  {
+    name: "Державні установи",
+    slug: "derzhavni-ustanovy",
+    icon: "Building2",
+    description:
+      "Органи влади, суд, поліція, ЦНАП, податкова, пенсійний фонд та інші держустанови Дубна",
+    sortOrder: 16,
+  },
 ];
 
 async function main() {
@@ -83,6 +98,18 @@ async function main() {
 
   console.log("Importing educational institutions in Dubno…");
   execSync("npx tsx scripts/import-schools.ts", {
+    stdio: "inherit",
+    env: process.env,
+  });
+
+  console.log("Importing gas stations in Dubno…");
+  execSync("npx tsx scripts/import-gas-stations.ts", {
+    stdio: "inherit",
+    env: process.env,
+  });
+
+  console.log("Importing government institutions in Dubno…");
+  execSync("npx tsx scripts/import-government.ts", {
     stdio: "inherit",
     env: process.env,
   });

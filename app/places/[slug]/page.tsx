@@ -9,11 +9,14 @@ import {
   Globe,
   MapPinned,
   Phone,
+  Send,
   Star,
+  Video,
 } from "lucide-react";
 
 import { PlaceCard } from "@/components/place-card";
 import { PlaceRow } from "@/components/place-row";
+import { PlaceViewTracker } from "@/components/place-view-tracker";
 import { PostalBrandCover } from "@/components/postal-brand-cover";
 import { ReviewForm } from "@/components/review-form";
 import { Button } from "@/components/ui/button";
@@ -21,15 +24,17 @@ import { Separator } from "@/components/ui/separator";
 import { UserAvatar } from "@/components/user-avatar";
 import { APP_CITY, googleMapsUrl } from "@/lib/constants";
 import { formatAddress, formatCountLabel, formatDate } from "@/lib/format";
+import { isPlacePopular } from "@/lib/place-popularity";
 import { getPostalBrandInfo } from "@/lib/postal-brand";
 import { displayName } from "@/lib/user-display";
-import { getCurrentUser } from "@/lib/session";
 import { getPlaceBySlug, getSimilarPlaces } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -55,6 +60,8 @@ function ContactAside({
     website: string | null;
     facebook: string | null;
     instagram: string | null;
+    youtube: string | null;
+    telegram: string | null;
     latitude: number | null;
     longitude: number | null;
   };
@@ -136,6 +143,30 @@ function ContactAside({
             </a>
           </Button>
         ) : null}
+        {place.youtube ? (
+          <Button asChild variant="outline" size="sm" className="h-9">
+            <a
+              href={place.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Video className="size-4" />
+              YouTube
+            </a>
+          </Button>
+        ) : null}
+        {place.telegram ? (
+          <Button asChild variant="outline" size="sm" className="h-9">
+            <a
+              href={place.telegram}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Send className="size-4" />
+              Telegram
+            </a>
+          </Button>
+        ) : null}
       </div>
 
       {mapsUrl ? (
@@ -164,16 +195,16 @@ function ContactAside({
 
 export default async function PlaceDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const userPromise = getCurrentUser();
   const place = await getPlaceBySlug(slug);
   if (!place) notFound();
 
   const postal = getPostalBrandInfo(place.slug);
 
-  const [similar, user] = await Promise.all([
-    getSimilarPlaces(place.id, place.categoryId, postal ? 8 : 4),
-    userPromise,
-  ]);
+  const similar = await getSimilarPlaces(
+    place.id,
+    place.categoryId,
+    postal ? 8 : 4
+  );
 
   const mapsUrl = googleMapsUrl({
     latitude: place.latitude,
@@ -182,14 +213,16 @@ export default async function PlaceDetailPage({ params }: PageProps) {
     title: place.title,
   });
 
-  const myReview = user
-    ? place.reviews.find((review) => review.userId === user.id)
-    : null;
-
   const gallery = place.images.slice(0, 4);
   const hasGallery = gallery.length > 0;
   const hasRating = place.rating > 0;
   const reviewCount = place.reviews.length;
+  const popular = isPlacePopular({
+    rating: place.rating,
+    reviewsCount: reviewCount,
+    viewCount: place.viewCount,
+    clickCount: place.clickCount,
+  });
   const backHref = `/categories/${place.category.slug}`;
   const backLabel = place.category.name;
   const displayTitle = postal
@@ -198,6 +231,7 @@ export default async function PlaceDetailPage({ params }: PageProps) {
 
   return (
     <div>
+      <PlaceViewTracker placeId={place.id} />
       <div className="page-shell pt-5 sm:pt-6">
         <Link
           href={backHref}
@@ -244,13 +278,13 @@ export default async function PlaceDetailPage({ params }: PageProps) {
                   key={src}
                   className={cn(
                     "relative overflow-hidden bg-muted",
-                    gallery.length === 1 && "aspect-[16/9]",
-                    gallery.length === 2 && "aspect-[4/3]",
-                    gallery.length === 3 && "aspect-[4/3]",
+                    gallery.length === 1 && "aspect-video",
+                    gallery.length === 2 && "aspect-4/3",
+                    gallery.length === 3 && "aspect-4/3",
                     gallery.length >= 4 &&
                       (index === 0
-                        ? "col-span-2 aspect-[16/10] lg:row-span-2 lg:min-h-[20rem] lg:aspect-auto"
-                        : "aspect-[4/3] lg:min-h-[9.5rem] lg:aspect-auto")
+                        ? "col-span-2 aspect-16/10 lg:row-span-2 lg:min-h-80 lg:aspect-auto"
+                        : "aspect-4/3 lg:min-h-38 lg:aspect-auto")
                   )}
                 >
                   <Image
@@ -269,7 +303,7 @@ export default async function PlaceDetailPage({ params }: PageProps) {
               ))}
             </div>
           ) : (
-            <div className="flex aspect-[16/9] items-center justify-center rounded-[1.35rem] border border-dashed border-border/70 bg-secondary/50 text-sm text-muted-foreground sm:rounded-[1.6rem]">
+            <div className="flex aspect-video items-center justify-center rounded-[1.35rem] border border-dashed border-border/70 bg-secondary/50 text-sm text-muted-foreground sm:rounded-[1.6rem]">
               Немає фото
             </div>
           )}
@@ -289,7 +323,7 @@ export default async function PlaceDetailPage({ params }: PageProps) {
                     {place.category.name}
                   </Link>
                 </p>
-                <h1 className="font-display text-3xl font-medium tracking-tight break-words text-balance sm:text-4xl lg:text-[2.6rem]">
+                <h1 className="font-display wrap-break-word text-3xl font-medium tracking-tight text-balance sm:text-4xl lg:text-[2.6rem]">
                   {place.title}
                 </h1>
               </>
@@ -312,14 +346,14 @@ export default async function PlaceDetailPage({ params }: PageProps) {
               ) : (
                 <span className="text-muted-foreground">Поки без відгуків</span>
               )}
-              {place.featured && place.rating >= 4 ? (
+              {popular ? (
                 <span className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold tracking-wide uppercase">
-                  Рекомендуємо
+                  Популярне місце
                 </span>
               ) : null}
             </div>
             {place.description?.trim() ? (
-              <p className="max-w-2xl text-[15px] leading-relaxed break-words text-muted-foreground whitespace-pre-wrap sm:text-base">
+              <p className="wrap-break-word max-w-2xl text-[15px] leading-relaxed text-muted-foreground whitespace-pre-wrap sm:text-base">
                 {place.description}
               </p>
             ) : null}
@@ -337,11 +371,11 @@ export default async function PlaceDetailPage({ params }: PageProps) {
               <ReviewForm
                 placeId={place.id}
                 placeSlug={place.slug}
-                initial={
-                  myReview
-                    ? { rating: myReview.rating, comment: myReview.comment }
-                    : null
-                }
+                existingReviews={place.reviews.map((review) => ({
+                  userId: review.userId,
+                  rating: review.rating,
+                  comment: review.comment,
+                }))}
               />
               {reviewCount === 0 ? (
                 <p className="rounded-2xl border border-dashed border-border/80 bg-secondary/40 px-5 py-8 text-center text-sm text-muted-foreground">

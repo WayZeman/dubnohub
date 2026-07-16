@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { ChevronRight, MapPin } from "lucide-react";
 
 import type { PlaceCardData } from "@/components/place-card";
+import { TrackedPlaceLink } from "@/components/tracked-place-link";
 import { formatAddress } from "@/lib/format";
 import { getPostalBrandInfo } from "@/lib/postal-brand";
 import { cn } from "@/lib/utils";
@@ -21,7 +21,8 @@ export function PlaceRow({
     : place.category.name;
 
   return (
-    <Link
+    <TrackedPlaceLink
+      placeId={place.id}
       href={`/places/${place.slug}`}
       className={cn(
         "group grid grid-cols-[auto_1fr_auto] items-center gap-3 border-b border-border/60 px-1 py-3.5 transition-colors last:border-b-0 hover:bg-secondary/40 sm:gap-4 sm:px-2",
@@ -55,6 +56,6 @@ export function PlaceRow({
       </div>
 
       <ChevronRight className="size-4 shrink-0 text-muted-foreground/50 transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
-    </Link>
+    </TrackedPlaceLink>
   );
 }

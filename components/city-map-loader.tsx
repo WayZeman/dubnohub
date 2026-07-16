@@ -10,8 +10,15 @@ const CityMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="city-map-shell flex h-[min(72vh,640px)] min-h-[22rem] items-center justify-center bg-secondary/40 text-sm text-muted-foreground">
-        Завантаження мапи…
+      <div
+        className="city-map-shell flex h-[min(72vh,640px)] min-h-[22rem] items-center justify-center bg-secondary/30"
+        role="status"
+        aria-live="polite"
+      >
+        <div className="flex flex-col items-center gap-3">
+          <div className="size-8 animate-pulse rounded-full bg-primary/25" />
+          <p className="text-sm text-muted-foreground">Завантаження мапи…</p>
+        </div>
       </div>
     ),
   }

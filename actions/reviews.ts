@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
@@ -41,6 +41,8 @@ export async function upsertReview(raw: unknown): Promise<ActionResult> {
     revalidatePath("/places");
     revalidatePath("/admin/reviews");
     revalidatePath("/profile");
+
+    revalidateTag("places", "max");
     return { success: true };
   } catch (error) {
     return {
@@ -71,6 +73,8 @@ export async function deleteReview(id: string): Promise<ActionResult> {
     revalidatePath(`/places/${review.place.slug}`);
     revalidatePath("/admin/reviews");
     revalidatePath("/profile");
+
+    revalidateTag("places", "max");
     return { success: true };
   } catch (error) {
     return {

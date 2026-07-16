@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/session";
@@ -9,7 +9,7 @@ import { slugify } from "@/lib/constants";
 import type { ActionResult } from "@/actions/types";
 
 async function uniqueCategorySlug(base: string, excludeId?: string) {
-  let slug = slugify(base) || "category";
+  const slug = slugify(base) || "category";
   let i = 0;
   while (true) {
     const candidate = i === 0 ? slug : `${slug}-${i}`;
@@ -43,6 +43,9 @@ export async function createCategory(
     revalidatePath("/");
     revalidatePath("/categories");
     revalidatePath("/admin/categories");
+
+    revalidateTag("categories", "max");
+    revalidateTag("places", "max");
     return { success: true, id: category.id };
   } catch (error) {
     return {
@@ -76,6 +79,9 @@ export async function updateCategory(
     revalidatePath("/categories");
     revalidatePath(`/categories/${slug}`);
     revalidatePath("/admin/categories");
+
+    revalidateTag("categories", "max");
+    revalidateTag("places", "max");
     return { success: true };
   } catch (error) {
     return {
@@ -99,6 +105,9 @@ export async function deleteCategory(id: string): Promise<ActionResult> {
     revalidatePath("/");
     revalidatePath("/categories");
     revalidatePath("/admin/categories");
+
+    revalidateTag("categories", "max");
+    revalidateTag("places", "max");
     return { success: true };
   } catch (error) {
     return {

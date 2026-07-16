@@ -36,8 +36,9 @@ export const placeSchema = z.object({
   website: z.string().trim().url("Некоректне посилання").optional().or(z.literal("")),
   facebook: z.string().trim().url("Некоректне посилання").optional().or(z.literal("")),
   instagram: z.string().trim().url("Некоректне посилання").optional().or(z.literal("")),
+  youtube: z.string().trim().url("Некоректне посилання").optional().or(z.literal("")),
+  telegram: z.string().trim().url("Некоректне посилання").optional().or(z.literal("")),
   workingHours: z.string().trim().max(1000).optional().or(z.literal("")),
-  featured: z.boolean().optional(),
   images: z.string().optional(),
 });
 
@@ -71,5 +72,6 @@ export function parseCommaList(value?: string): string[] {
   return value
     .split(",")
     .map((item) => item.trim())
-    .filter(Boolean);
+    .filter(Boolean)
+    .slice(0, 3);
 }

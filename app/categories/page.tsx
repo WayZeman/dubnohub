@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: `Усі категорії довідника ${APP_CITY_GENITIVE}: кафе, ресторани, аптеки, лікарні та інше.`,
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export default async function CategoriesPage() {
   const categories = await getCategories().catch(() => []);
@@ -17,9 +17,7 @@ export default async function CategoriesPage() {
   return (
     <div className="page-shell section-pad space-y-8">
       <header className="space-y-2">
-        <p className="text-xs font-medium tracking-[0.16em] text-primary uppercase">
-          Навігація
-        </p>
+        <p className="section-eyebrow">Навігація</p>
         <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
           Категорії
         </h1>

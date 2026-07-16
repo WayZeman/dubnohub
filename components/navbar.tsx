@@ -27,23 +27,22 @@ const links = [
   { href: "/categories", label: "Категорії" },
 ];
 
-export function Navbar() {
-  const pathname = usePathname();
-  const { data: session, status } = useSession();
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const isHome = pathname === "/";
-  const overlay = isHome && !scrolled;
-  const showAdmin = canManageContent(session?.user?.role);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const NavLinks = ({ mobile = false }: { mobile?: boolean }) => (
+function NavLinks({
+  mobile = false,
+  pathname,
+  overlay,
+  showAdmin,
+  role,
+  onNavigate,
+}: {
+  mobile?: boolean;
+  pathname: string;
+  overlay: boolean;
+  showAdmin: boolean;
+  role?: Role;
+  onNavigate: () => void;
+}) {
+  return (
     <nav
       className={cn(
         mobile ? "flex flex-col gap-1" : "hidden items-center gap-0.5 md:flex"
@@ -59,7 +58,7 @@ export function Navbar() {
           <Link
             key={link.href}
             href={link.href}
-            onClick={() => setOpen(false)}
+            onClick={onNavigate}
             className={cn(
               "rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-300",
               mobile
@@ -82,7 +81,7 @@ export function Navbar() {
       {showAdmin ? (
         <Link
           href="/admin"
-          onClick={() => setOpen(false)}
+          onClick={onNavigate}
           className={cn(
             "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
             mobile
@@ -92,11 +91,28 @@ export function Navbar() {
                 : "text-muted-foreground hover:text-foreground"
           )}
         >
-          {session?.user?.role === Role.ADMIN ? "Адмін" : "Редактор"}
+          {role === Role.ADMIN ? "Адмін" : "Редактор"}
         </Link>
       ) : null}
     </nav>
   );
+}
+
+export function Navbar() {
+  const pathname = usePathname();
+  const { data: session, status } = useSession();
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const isHome = pathname === "/";
+  const overlay = isHome && !scrolled;
+  const showAdmin = canManageContent(session?.user?.role);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <header
@@ -104,7 +120,7 @@ export function Navbar() {
         "sticky top-0 z-50 transition-[background-color,border-color,backdrop-filter,color] duration-500",
         overlay
           ? "border-b border-transparent bg-transparent"
-          : "border-b border-border/60 bg-background/85 backdrop-blur-xl"
+          : "border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/72"
       )}
     >
       <div className="page-shell flex h-[4.25rem] items-center justify-between gap-4">
@@ -118,7 +134,13 @@ export function Navbar() {
           {APP_NAME}
         </Link>
 
-        <NavLinks />
+        <NavLinks
+          pathname={pathname}
+          overlay={overlay}
+          showAdmin={showAdmin}
+          role={session?.user?.role}
+          onNavigate={() => setOpen(false)}
+        />
 
         <div className="flex items-center gap-1.5 sm:gap-2">
           <Button
@@ -198,7 +220,14 @@ export function Navbar() {
                 </SheetTitle>
               </SheetHeader>
               <div className="mt-8 flex flex-col gap-6">
-                <NavLinks mobile />
+                <NavLinks
+                  mobile
+                  pathname={pathname}
+                  overlay={overlay}
+                  showAdmin={showAdmin}
+                  role={session?.user?.role}
+                  onNavigate={() => setOpen(false)}
+                />
                 {session?.user ? (
                   <div className="flex flex-col gap-4 border-t border-border/60 pt-5">
                     <Link

@@ -3,7 +3,6 @@ import { Golos_Text, Literata } from "next/font/google";
 
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { MotionProvider } from "@/components/providers/motion-provider";
 import { Navbar } from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { APP_DESCRIPTION, APP_NAME, APP_TAGLINE } from "@/lib/constants";
@@ -13,17 +12,17 @@ import "./globals.css";
 /** UI / body — Golos Text: кирилиця first-class, спокійний преміум-інтерфейс. */
 const sans = Golos_Text({
   variable: "--font-sans",
-  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
+  subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
 });
 
 /** Display — Literata: editorial serif з кирилицею, гід міста / magazine feel. */
 const display = Literata({
   variable: "--font-display",
-  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
+  subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -73,15 +72,13 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem={false}
         >
-          <MotionProvider>
-            <AuthProvider>
-              <div className="flex min-h-svh flex-col">
-                <Navbar />
-                <main className="flex-1">{children}</main>
-              </div>
-              <Toaster position="bottom-center" />
-            </AuthProvider>
-          </MotionProvider>
+          <AuthProvider>
+            <div className="flex min-h-svh flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+            </div>
+            <Toaster position="bottom-center" />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
