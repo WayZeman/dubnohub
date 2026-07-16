@@ -74,7 +74,8 @@ const PLACES: ReligionPlace[] = [
     latitude: 50.4158,
     longitude: 25.7485,
     photoUrls: [
-      "https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=1200&q=80",
+      "https://f.rivne.travel/location/4280/AhHYW.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e2/%D0%A1%D0%B2%D1%8F%D1%82%D0%BE_-%D0%92%D0%BE%D0%B7%D0%BD%D0%B5%D1%81%D0%B5%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9.jpg",
     ],
   },
   {
@@ -90,7 +91,8 @@ const PLACES: ReligionPlace[] = [
     latitude: 50.3962,
     longitude: 25.7608,
     photoUrls: [
-      "https://images.unsplash.com/photo-1519890231714-5fd3e8a0f8e3?auto=format&fit=crop&w=1200&q=80",
+      "https://i.photographers.ua/images/pictures/2466/4jpg.jpg",
+      "https://map.ugcc.ua/pub/base/0c97ab6ed7dcbc10.jpg",
     ],
   },
   {
@@ -106,7 +108,8 @@ const PLACES: ReligionPlace[] = [
     latitude: 50.4285,
     longitude: 25.7352,
     photoUrls: [
-      "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?auto=format&fit=crop&w=1200&q=80",
+      "https://f.rivne.travel/location/4279/CVEvJ.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/18/Wooden_Church_of_the_Ascension_in_Dubno_01.jpg",
     ],
   },
   {
@@ -158,7 +161,8 @@ const PLACES: ReligionPlace[] = [
     latitude: 50.3938,
     longitude: 25.7578,
     photoUrls: [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
+      "https://f.rivne.travel/location/4287/d5Qn_.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f1/%D0%94%D1%83%D0%B1%D0%BD%D0%BE_%D0%91%D1%83%D0%B4%D0%B8%D0%BD%D0%BE%D0%BA_%D0%94%D0%BE%D0%BC%D0%B1%D1%80%D0%BE%D0%B2%D1%81%D1%8C%D0%BA%D0%BE%D0%B3%D0%BE_%D0%A6%D0%B5%D1%80%D0%BA%D0%B2%D0%B0_%D0%B0%D1%80%D1%85%D0%B0%D0%BD%D0%B3%D0%B5%D0%BB%D0%B0_%D0%93%D0%B0%D0%B2%D1%80%D0%B8%D1%97%D0%BB%D0%B0.jpg",
     ],
   },
   {
@@ -174,7 +178,8 @@ const PLACES: ReligionPlace[] = [
     latitude: 50.4124,
     longitude: 25.7412,
     photoUrls: [
-      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c8/Dubno_Rivnenska-Saint_Elijah_church-front_view.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/68/56-103-0228_Dubno_Church_RB.jpg",
     ],
   },
   {
@@ -195,17 +200,12 @@ const PLACES: ReligionPlace[] = [
     kind: "catholic",
     typeLabel: "Костел",
     denomination: "Римо-католицька Церква",
-    address: "територія Дубенського замку, вул. Замкова, 7, Дубно",
+    // Historically the Bernardine church (now St Nicholas monastery)
+    address: "вул. Данила Галицького, 28, Дубно",
     phone: null,
     website: null,
     facebook: null,
-    // Castle church — near Dubno castle landmark
-    latitude: 50.41955,
-    longitude: 25.75095,
-    photoUrls: [
-      "https://upload.wikimedia.org/wikipedia/commons/7/75/56-103-0213_Dubno_Castle_RB_24.jpg",
-      "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?auto=format&fit=crop&w=1200&q=80",
-    ],
+    existingSlug: "mykolaivskyi-sobor",
   },
   {
     slug: "tserkva-ehb-vifaniia",
@@ -219,9 +219,7 @@ const PLACES: ReligionPlace[] = [
     facebook: null,
     latitude: 50.4082,
     longitude: 25.7524,
-    photoUrls: [
-      "https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=1200&q=80",
-    ],
+    photoUrls: ["https://f.rivne.travel/location/4281/U7Vmw.png"],
   },
   {
     slug: "dim-molytvy-ehb-dubno",
@@ -235,9 +233,6 @@ const PLACES: ReligionPlace[] = [
     facebook: null,
     latitude: 50.3945,
     longitude: 25.7569,
-    photoUrls: [
-      "https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=1200&q=80",
-    ],
   },
   {
     slug: "nehalezhna-tserkva-ehb-vidrodzhennia",
@@ -251,9 +246,6 @@ const PLACES: ReligionPlace[] = [
     facebook: null,
     latitude: 50.4178,
     longitude: 25.7415,
-    photoUrls: [
-      "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=1200&q=80",
-    ],
   },
   {
     slug: "tserkva-adventystiv-dubno",
@@ -267,9 +259,6 @@ const PLACES: ReligionPlace[] = [
     facebook: null,
     latitude: 50.4146,
     longitude: 25.7468,
-    photoUrls: [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
-    ],
   },
   {
     slug: "tserkva-svyatoho-andriia",
@@ -283,9 +272,6 @@ const PLACES: ReligionPlace[] = [
     facebook: null,
     latitude: 50.4065,
     longitude: 25.7398,
-    photoUrls: [
-      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80",
-    ],
   },
 ];
 
@@ -404,6 +390,16 @@ async function fetchImageBuffer(
 async function resolvePlaceImage(
   place: ReligionPlace,
 ): Promise<string | null> {
+  const trusted = (url: string) =>
+    /upload\.wikimedia\.org|f\.rivne\.travel|i\.photographers\.ua|map\.ugcc\.ua|photos\.drymba\.com/.test(
+      url,
+    );
+
+  // Prefer direct real URLs (no stock, no re-upload)
+  for (const url of place.photoUrls ?? []) {
+    if (trusted(url)) return url;
+  }
+
   for (const url of place.photoUrls ?? []) {
     const fetched = await fetchImageBuffer(url);
     if (!fetched) continue;
@@ -425,14 +421,8 @@ async function resolvePlaceImage(
     return blob.url;
   }
 
-  const svg = religionSvg(place.kind, place.title);
-  const blob = await put(`places/${place.slug}/cover.svg`, svg, {
-    access: "public",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-    contentType: "image/svg+xml",
-  });
-  return blob.url;
+  // No real photo found — leave empty (no Unsplash / SVG placeholders)
+  return null;
 }
 
 async function resolveCoords(place: ReligionPlace) {
