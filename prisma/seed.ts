@@ -53,6 +53,14 @@ const categories = [
       "Органи влади, суд, поліція, ЦНАП, податкова, пенсійний фонд та інші держустанови Дубна",
     sortOrder: 16,
   },
+  {
+    name: "Промисловість",
+    slug: "promyslovist",
+    icon: "Factory",
+    description:
+      "Виробничі підприємства Дубна: харчова, текстильна, скляна, хімічна промисловість та інше",
+    sortOrder: 17,
+  },
 ];
 
 async function main() {
@@ -110,6 +118,12 @@ async function main() {
 
   console.log("Importing government institutions in Dubno…");
   execSync("npx tsx scripts/import-government.ts", {
+    stdio: "inherit",
+    env: process.env,
+  });
+
+  console.log("Importing industry enterprises in Dubno…");
+  execSync("npx tsx scripts/import-industry.ts", {
     stdio: "inherit",
     env: process.env,
   });

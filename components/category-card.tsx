@@ -4,6 +4,7 @@ import {
   Castle,
   Coffee,
   Dumbbell,
+  Factory,
   Fuel,
   GraduationCap,
   Hospital,
@@ -34,6 +35,8 @@ function CategoryIcon({ name }: { name: string }) {
       return <Coffee className="size-5" aria-hidden />;
     case "Dumbbell":
       return <Dumbbell className="size-5" aria-hidden />;
+    case "Factory":
+      return <Factory className="size-5" aria-hidden />;
     case "Fuel":
       return <Fuel className="size-5" aria-hidden />;
     case "GraduationCap":

@@ -72,13 +72,16 @@ export async function updateProfile(raw: unknown): Promise<ActionResult> {
 export async function getAdminUsers() {
   await requireAdmin();
   const users = await prisma.user.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ role: "desc" }, { createdAt: "desc" }],
     select: {
       id: true,
       name: true,
+      firstName: true,
+      lastName: true,
       email: true,
       image: true,
       role: true,
+      profession: true,
       createdAt: true,
       _count: { select: { reviews: true } },
     },
@@ -86,11 +89,24 @@ export async function getAdminUsers() {
 
   return users.map((user) => ({
     id: user.id,
-    name: user.name,
+    name: displayName(user),
     email: user.email,
     image: user.image,
     role: user.role,
+    profession: user.profession,
     createdAt: user.createdAt,
     reviewsCount: user._count.reviews,
   }));
+}
+
+export async function getAdminUserStats() {
+  await requireAdmin();
+  const [total, admins, editors, regularUsers] = await Promise.all([
+    prisma.user.count(),
+    prisma.user.count({ where: { role: Role.ADMIN } }),
+    prisma.user.count({ where: { role: Role.EDITOR } }),
+    prisma.user.count({ where: { role: Role.USER } }),
+  ]);
+
+  return { total, admins, editors, regularUsers };
 }

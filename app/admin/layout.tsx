@@ -21,7 +21,7 @@ export default async function AdminLayout({
     { href: "/admin/places", label: "Місця", roles: ["ADMIN", "EDITOR"] },
     { href: "/admin/categories", label: "Категорії", roles: ["ADMIN"] },
     { href: "/admin/reviews", label: "Відгуки", roles: ["ADMIN"] },
-    { href: "/admin/users", label: "Редактори", roles: ["ADMIN"] },
+    { href: "/admin/users", label: "Користувачі", roles: ["ADMIN"] },
   ].filter((link) => link.roles.includes(user.role));
 
   return (

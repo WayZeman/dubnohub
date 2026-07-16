@@ -15,3 +15,14 @@ export function canManageContent(role?: Role | null): boolean {
 export function canManageAdmin(role?: Role | null): boolean {
   return role === Role.ADMIN;
 }
+
+export function roleBadgeVariant(role: Role) {
+  switch (role) {
+    case Role.ADMIN:
+      return "default" as const;
+    case Role.EDITOR:
+      return "secondary" as const;
+    default:
+      return "outline" as const;
+  }
+}

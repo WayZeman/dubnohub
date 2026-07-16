@@ -31,6 +31,7 @@ const ICON_SUGGESTIONS = [
   "Car",
   "Fuel",
   "Building2",
+  "Factory",
   "GraduationCap",
   "Trees",
   "ShoppingBag",
