@@ -53,41 +53,49 @@ export function PlacesSearch({
           : "rounded-2xl border border-border/70 bg-card p-3 sm:p-4"
       }
     >
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:gap-3">
         <div className="relative min-w-0 flex-1">
           <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Пошук за назвою, адресою або категорією…"
-            className="h-11 border-0 bg-muted/50 pl-10 shadow-none focus-visible:ring-1"
+            placeholder="Пошук за назвою чи адресою…"
+            className="h-12 border-0 bg-muted/50 pl-10 text-base shadow-none focus-visible:ring-1 sm:h-11 sm:text-sm"
+            enterKeyHint="search"
+            autoComplete="off"
           />
         </div>
-        <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger className="h-11 w-full sm:w-[170px]">
-            <SelectValue placeholder="Категорія" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Усі категорії</SelectItem>
-            {categories.map((item) => (
-              <SelectItem key={item.slug} value={item.slug}>
-                {item.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={minRating} onValueChange={setMinRating}>
-          <SelectTrigger className="h-11 w-full sm:w-[140px]">
-            <SelectValue placeholder="Рейтинг" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="0">Будь-який</SelectItem>
-            <SelectItem value="3">від 3★</SelectItem>
-            <SelectItem value="4">від 4★</SelectItem>
-            <SelectItem value="4.5">від 4.5★</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button type="submit" className="h-11 px-6" disabled={pending}>
+        <div className="grid grid-cols-2 gap-2.5 sm:contents">
+          <Select value={category} onValueChange={setCategory}>
+            <SelectTrigger className="h-12 w-full text-base sm:h-11 sm:w-[170px] sm:text-sm">
+              <SelectValue placeholder="Категорія" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Усі категорії</SelectItem>
+              {categories.map((item) => (
+                <SelectItem key={item.slug} value={item.slug}>
+                  {item.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={minRating} onValueChange={setMinRating}>
+            <SelectTrigger className="h-12 w-full text-base sm:h-11 sm:w-[140px] sm:text-sm">
+              <SelectValue placeholder="Рейтинг" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0">Будь-який</SelectItem>
+              <SelectItem value="3">від 3★</SelectItem>
+              <SelectItem value="4">від 4★</SelectItem>
+              <SelectItem value="4.5">від 4.5★</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <Button
+          type="submit"
+          className="h-12 w-full px-6 text-base sm:h-11 sm:w-auto sm:text-sm"
+          disabled={pending}
+        >
           Знайти
         </Button>
       </div>

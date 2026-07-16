@@ -3,7 +3,21 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap } from "maplibre-gl";
-import { Layers, Map as MapIcon, Maximize2, Minimize2, Satellite, Crosshair, Settings, Minus, Plus, LocateFixed, Expand } from "lucide-react";
+import {
+  Layers,
+  Map as MapIcon,
+  Maximize2,
+  Minimize2,
+  Satellite,
+  Crosshair,
+  Settings,
+  Minus,
+  Plus,
+  LocateFixed,
+  Expand,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -380,6 +394,7 @@ export function CityMap({
   const [ready, setReady] = useState(false);
   const [basemap, setBasemap] = useState<MapBasemap>("streets");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [layersOpen, setLayersOpen] = useState(false);
   const [scaleBar, setScaleBar] = useState({ label: "100 м", width: 72 });
   const basemapRef = useRef<MapBasemap>("streets");
 
@@ -645,7 +660,7 @@ export function CityMap({
 
   const shellHeight = fullHeight
     ? "h-[calc(100svh-4.25rem)] min-h-[20rem]"
-    : "h-[min(72vh,640px)] min-h-[22rem]";
+    : "h-[min(68svh,560px)] min-h-[18rem] sm:h-[min(72vh,640px)] sm:min-h-[22rem]";
 
   return (
     <div
@@ -663,7 +678,8 @@ export function CityMap({
         aria-label="Мапа Дубна"
       />
 
-      <div className="city-map-filters absolute left-3 top-3 z-10 w-[min(100%-1.5rem,17.5rem)] sm:left-4 sm:top-4">
+      {/* Desktop: side panel */}
+      <div className="city-map-filters absolute top-3 left-3 z-10 hidden w-[min(100%-1.5rem,17.5rem)] md:block md:left-4 md:top-4">
         <div className="mb-3 flex items-center gap-2">
           <Layers className="size-4 shrink-0 text-primary" />
           <p className="text-sm font-semibold text-foreground">Шари мапи</p>
@@ -671,39 +687,96 @@ export function CityMap({
             {visibleCount}
           </span>
         </div>
+        <LayersList
+          topLevel={topLevel}
+          postalChildren={postalChildren}
+          active={active}
+          onToggle={toggleLayer}
+        />
+      </div>
 
-        <div className="space-y-1">
-          {topLevel.map((group) => (
-            <FilterToggle
-              key={group.key}
-              group={group}
-              active={active[group.key] !== false}
-              onToggle={() => toggleLayer(group.key)}
+      {/* Mobile: bottom sheet — collapsed by default */}
+      {layersOpen ? (
+        <button
+          type="button"
+          className="absolute inset-0 z-15 bg-black/20 md:hidden"
+          aria-label="Закрити шари"
+          onClick={() => setLayersOpen(false)}
+        />
+      ) : null}
+
+      <div
+        className={cn(
+          "absolute inset-x-0 bottom-0 z-20 md:hidden",
+          "pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+        )}
+      >
+        <div
+          className={cn(
+            "city-map-filters-sheet mx-2 overflow-hidden rounded-t-2xl border border-border bg-card shadow-[0_-8px_28px_oklch(0.28_0.04_155/0.14)] sm:mx-3",
+            layersOpen && "rounded-2xl"
+          )}
+        >
+          <button
+            type="button"
+            onClick={() => {
+              setLayersOpen((open) => !open);
+              setSettingsOpen(false);
+            }}
+            className="relative flex w-full items-center gap-2.5 px-3.5 pt-4 pb-3 text-left active:bg-secondary/50"
+            aria-expanded={layersOpen}
+            aria-controls="map-layers-panel"
+          >
+            <span
+              className="absolute top-1.5 left-1/2 h-1 w-9 -translate-x-1/2 rounded-full bg-border"
+              aria-hidden
             />
-          ))}
-        </div>
+            <Layers className="size-4 shrink-0 text-primary" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-semibold text-foreground">
+                Шари мапи
+              </span>
+              <span className="block text-xs text-muted-foreground">
+                {visibleCount} на мапі
+                {layersOpen ? " · торкніться, щоб згорнути" : " · розгорнути"}
+              </span>
+            </span>
+            <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-foreground">
+              {layersOpen ? (
+                <ChevronDown className="size-5" />
+              ) : (
+                <ChevronUp className="size-5" />
+              )}
+            </span>
+          </button>
 
-        {active.poshta !== false && postalChildren.length > 0 ? (
-          <div className="mt-3 space-y-1 border-t border-border pt-3">
-            <p className="mb-1.5 px-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
-              Оператори
-            </p>
-            {postalChildren.map((group) => (
-              <FilterToggle
-                key={group.key}
-                group={group}
-                active={active[group.key] !== false}
-                onToggle={() => toggleLayer(group.key)}
-                nested
-              />
-            ))}
+          <div
+            id="map-layers-panel"
+            className={cn(
+              "overflow-y-auto overscroll-contain px-3.5 transition-[max-height,opacity,padding] duration-300 ease-out",
+              layersOpen
+                ? "max-h-[min(42svh,22rem)] opacity-100 pb-3.5"
+                : "pointer-events-none max-h-0 opacity-0"
+            )}
+            aria-hidden={!layersOpen}
+          >
+            <LayersList
+              topLevel={topLevel}
+              postalChildren={postalChildren}
+              active={active}
+              onToggle={toggleLayer}
+            />
           </div>
-        ) : null}
+        </div>
       </div>
 
       <div
         ref={settingsRef}
-        className="absolute bottom-3 right-3 z-10 flex flex-col items-end gap-2 sm:bottom-4 sm:right-4"
+        className={cn(
+          "absolute right-3 z-10 flex flex-col items-end gap-2 sm:right-4",
+          "bottom-[calc(4.25rem+env(safe-area-inset-bottom))] md:bottom-4",
+          layersOpen && "max-md:bottom-[min(48svh,24rem)]"
+        )}
       >
         {settingsOpen ? (
           <div className="city-map-settings w-[min(100vw-1.5rem,17rem)] rounded-xl border border-border bg-card p-3 shadow-lg">
@@ -716,7 +789,7 @@ export function CityMap({
                 type="button"
                 onClick={() => switchBasemap("streets")}
                 className={cn(
-                  "inline-flex items-center justify-center gap-1.5 rounded-md px-2 py-2 text-xs font-semibold transition-colors",
+                  "inline-flex min-h-10 items-center justify-center gap-1.5 rounded-md px-2 py-2 text-xs font-semibold transition-colors",
                   basemap === "streets"
                     ? "bg-card text-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
@@ -730,7 +803,7 @@ export function CityMap({
                 type="button"
                 onClick={() => switchBasemap("satellite")}
                 className={cn(
-                  "inline-flex items-center justify-center gap-1.5 rounded-md px-2 py-2 text-xs font-semibold transition-colors",
+                  "inline-flex min-h-10 items-center justify-center gap-1.5 rounded-md px-2 py-2 text-xs font-semibold transition-colors",
                   basemap === "satellite"
                     ? "bg-card text-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
@@ -747,7 +820,7 @@ export function CityMap({
                 <button
                   type="button"
                   onClick={() => zoomBy(-1)}
-                  className="flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-sm font-medium hover:bg-secondary"
+                  className="flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-sm font-medium hover:bg-secondary"
                   aria-label="Зменшити масштаб"
                 >
                   <Minus className="size-4" />
@@ -755,7 +828,7 @@ export function CityMap({
                 <button
                   type="button"
                   onClick={() => zoomBy(1)}
-                  className="flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-sm font-medium hover:bg-secondary"
+                  className="flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-sm font-medium hover:bg-secondary"
                   aria-label="Збільшити масштаб"
                 >
                   <Plus className="size-4" />
@@ -765,7 +838,7 @@ export function CityMap({
               <button
                 type="button"
                 onClick={locateMe}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium hover:bg-secondary"
+                className="flex min-h-10 w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium hover:bg-secondary"
               >
                 <LocateFixed className="size-4 text-primary" />
                 Моя локація
@@ -774,7 +847,7 @@ export function CityMap({
               <button
                 type="button"
                 onClick={flyToCityCenter}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium hover:bg-secondary"
+                className="flex min-h-10 w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium hover:bg-secondary"
               >
                 <Crosshair className="size-4 text-primary" />
                 Центр Дубна
@@ -785,7 +858,7 @@ export function CityMap({
                   <button
                     type="button"
                     onClick={() => setExpanded((v) => !v)}
-                    className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium hover:bg-secondary"
+                    className="flex min-h-10 w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium hover:bg-secondary"
                   >
                     {expanded ? (
                       <Minimize2 className="size-4 text-primary" />
@@ -796,7 +869,7 @@ export function CityMap({
                   </button>
                   <Link
                     href="/map"
-                    className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium hover:bg-secondary"
+                    className="flex min-h-10 w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium hover:bg-secondary"
                   >
                     <Expand className="size-4 text-primary" />
                     На весь екран
@@ -807,7 +880,7 @@ export function CityMap({
               <button
                 type="button"
                 onClick={toggleBrowserFullscreen}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium hover:bg-secondary"
+                className="flex min-h-10 w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium hover:bg-secondary"
               >
                 <Maximize2 className="size-4 text-primary" />
                 Повний екран
@@ -818,7 +891,7 @@ export function CityMap({
 
         <div className="flex items-end gap-2">
           <div
-            className="city-map-scale pointer-events-none select-none rounded-lg border border-border bg-card px-2.5 py-2 shadow-md"
+            className="city-map-scale pointer-events-none hidden select-none rounded-lg border border-border bg-card px-2.5 py-2 shadow-md sm:block"
             aria-hidden
           >
             <div
@@ -835,7 +908,10 @@ export function CityMap({
             variant="secondary"
             size="icon"
             className="size-11 shrink-0 rounded-xl border border-border bg-card text-foreground shadow-md"
-            onClick={() => setSettingsOpen((open) => !open)}
+            onClick={() => {
+              setSettingsOpen((open) => !open);
+              setLayersOpen(false);
+            }}
             aria-label="Налаштування мапи"
             aria-expanded={settingsOpen}
             title="Налаштування"
@@ -845,6 +921,50 @@ export function CityMap({
         </div>
       </div>
     </div>
+  );
+}
+
+function LayersList({
+  topLevel,
+  postalChildren,
+  active,
+  onToggle,
+}: {
+  topLevel: MapFilterGroup[];
+  postalChildren: MapFilterGroup[];
+  active: Record<string, boolean>;
+  onToggle: (key: string) => void;
+}) {
+  return (
+    <>
+      <div className="space-y-1">
+        {topLevel.map((group) => (
+          <FilterToggle
+            key={group.key}
+            group={group}
+            active={active[group.key] !== false}
+            onToggle={() => onToggle(group.key)}
+          />
+        ))}
+      </div>
+
+      {active.poshta !== false && postalChildren.length > 0 ? (
+        <div className="mt-3 space-y-1 border-t border-border pt-3">
+          <p className="mb-1.5 px-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
+            Оператори
+          </p>
+          {postalChildren.map((group) => (
+            <FilterToggle
+              key={group.key}
+              group={group}
+              active={active[group.key] !== false}
+              onToggle={() => onToggle(group.key)}
+              nested
+            />
+          ))}
+        </div>
+      ) : null}
+    </>
   );
 }
 
@@ -865,11 +985,11 @@ function FilterToggle({
       onClick={onToggle}
       aria-pressed={active}
       className={cn(
-        "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm transition-colors",
+        "flex min-h-11 w-full items-center gap-2.5 rounded-lg px-2.5 py-2.5 text-left text-sm transition-colors md:min-h-0 md:py-2",
         active
           ? "bg-secondary text-foreground"
           : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
-        nested && "py-1.5 pl-3"
+        nested && "py-2 pl-3 md:py-1.5"
       )}
     >
       <span

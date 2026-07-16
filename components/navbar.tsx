@@ -60,7 +60,7 @@ function NavLinks({
             href={link.href}
             onClick={onNavigate}
             className={cn(
-              "rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-300",
+              "rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors duration-300 md:py-2 md:text-sm",
               mobile
                 ? active
                   ? "bg-secondary text-foreground"
@@ -123,11 +123,11 @@ export function Navbar() {
           : "border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/72"
       )}
     >
-      <div className="page-shell flex h-[4.25rem] items-center justify-between gap-4">
+      <div className="page-shell flex h-[4.25rem] items-center justify-between gap-3 sm:gap-4">
         <Link
           href="/"
           className={cn(
-            "font-display text-lg font-semibold tracking-tight transition-colors duration-500 hover:opacity-80 sm:text-xl",
+            "font-display truncate text-lg font-semibold tracking-tight transition-colors duration-500 hover:opacity-80 sm:text-xl",
             overlay ? "text-white" : "text-primary"
           )}
         >
@@ -213,7 +213,10 @@ export function Navbar() {
                 <Menu className="size-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[min(100%,20rem)]">
+            <SheetContent
+              side="right"
+              className="w-[min(100%,20rem)] pb-[max(1.5rem,env(safe-area-inset-bottom))]"
+            >
               <SheetHeader>
                 <SheetTitle className="font-display text-primary">
                   {APP_NAME}

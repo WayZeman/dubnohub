@@ -67,7 +67,7 @@ export function PlaceCard({
           </span>
         ) : null}
       </div>
-      <div className="space-y-2 p-4 sm:space-y-2.5">
+      <div className="space-y-1.5 p-3.5 sm:space-y-2.5 sm:p-4">
         <div className="flex items-center justify-between gap-2">
           <p className="text-[11px] font-semibold tracking-[0.12em] text-primary uppercase">
             {place.category.name}
@@ -77,7 +77,7 @@ export function PlaceCard({
             {place.rating > 0 ? place.rating.toFixed(1) : "—"}
           </p>
         </div>
-        <h3 className="font-display line-clamp-2 text-lg font-semibold tracking-tight text-balance transition-colors group-hover:text-primary">
+        <h3 className="font-display line-clamp-2 text-base font-semibold tracking-tight text-balance transition-colors group-hover:text-primary sm:text-lg">
           {place.title}
         </h3>
         <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">

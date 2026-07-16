@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Golos_Text, Literata } from "next/font/google";
 
 import { AuthProvider } from "@/components/providers/auth-provider";
@@ -24,6 +24,13 @@ const display = Literata({
   display: "swap",
   weight: ["500", "600", "700"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#f7f6f2",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -77,7 +84,11 @@ export default function RootLayout({
               <Navbar />
               <main className="flex-1">{children}</main>
             </div>
-            <Toaster position="bottom-center" />
+            <Toaster
+              position="bottom-center"
+              offset="max(1rem, env(safe-area-inset-bottom))"
+              mobileOffset="max(1rem, env(safe-area-inset-bottom))"
+            />
           </AuthProvider>
         </ThemeProvider>
       </body>

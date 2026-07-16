@@ -57,7 +57,7 @@ export default async function PlacesPage({ searchParams }: PageProps) {
           description="Спробуйте змінити запит або прибрати фільтри."
         />
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
           {places.map((place) => (
             <PlaceCard key={place.id} place={place} />
           ))}

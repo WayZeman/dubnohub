@@ -163,7 +163,7 @@
   }
 
   .section-pad {
-    @apply py-12 sm:py-16 lg:py-20;
+    @apply py-10 sm:py-16 lg:py-20;
   }
 
   .section-eyebrow {
@@ -202,6 +202,27 @@
 
   .city-map-filters {
     @apply rounded-xl border border-border bg-card p-3.5 shadow-md;
+  }
+
+  .city-map-filters-sheet {
+    touch-action: manipulation;
+  }
+
+  @media (max-width: 767px) {
+    .map-place-pin__card {
+      max-width: 9.5rem;
+      padding: 0.35rem 0.45rem;
+    }
+
+    .map-place-pin__text {
+      font-size: 0.6875rem;
+    }
+
+    .map-popup-body {
+      min-width: 10rem;
+      max-width: min(16rem, calc(100vw - 2.5rem));
+      padding: 0.75rem 1.75rem 0.75rem 0.75rem;
+    }
   }
 
   .city-map-popup.maplibregl-popup {

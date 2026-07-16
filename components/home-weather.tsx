@@ -32,7 +32,7 @@ export function HomeWeather({ weather }: HomeWeatherProps) {
 
   return (
     <p
-      className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/25 px-3.5 py-1.5 text-sm text-white/85 backdrop-blur-sm sm:gap-2.5 sm:text-base"
+      className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-black/25 px-3 py-1.5 text-sm text-white/85 backdrop-blur-sm sm:gap-2.5 sm:px-3.5 sm:text-base"
       aria-label={`Погода: ${weather.temperature}°, ${weather.label}`}
     >
       <Icon
@@ -46,7 +46,7 @@ export function HomeWeather({ weather }: HomeWeatherProps) {
       <span className="text-white/35" aria-hidden>
         ·
       </span>
-      <span className="font-medium text-white/80">{weather.label}</span>
+      <span className="truncate font-medium text-white/80">{weather.label}</span>
     </p>
   );
 }

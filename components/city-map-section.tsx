@@ -47,8 +47,8 @@ export async function CityMapSection({
               Мапа Дубна
             </h2>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Усі точки довідника на одній карті. Увімкніть або вимкніть категорії
-              та операторів пошти.
+              Усі точки довідника на одній карті. На телефоні шари — внизу:
+              розгорніть панель і увімкніть потрібні категорії.
             </p>
           </div>
         </div>

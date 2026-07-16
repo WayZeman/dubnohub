@@ -105,7 +105,7 @@ export default async function HomePage() {
               Нові точки, які щойно зʼявилися в каталозі.
             </p>
           </div>
-          <Button asChild variant="outline" className="h-10 shrink-0">
+          <Button asChild variant="outline" className="hidden h-10 shrink-0 sm:inline-flex">
             <Link href="/places">Усі місця</Link>
           </Button>
         </div>
@@ -141,7 +141,7 @@ export default async function HomePage() {
           <Button
             asChild
             size="lg"
-            className="h-11 shrink-0 bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+            className="h-12 w-full shrink-0 bg-primary-foreground text-primary hover:bg-primary-foreground/90 sm:h-11 sm:w-auto"
           >
             <Link href="/map">
               Відкрити мапу

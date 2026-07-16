@@ -44,18 +44,18 @@ function ReviewEditor({
     >
       <div>
         <p className="mb-2 text-sm font-medium">Ваша оцінка</p>
-        <div className="flex gap-1">
+        <div className="flex gap-0.5">
           {[1, 2, 3, 4, 5].map((value) => (
             <button
               key={value}
               type="button"
               onClick={() => setRating(value)}
-              className="rounded-md p-1 transition-colors hover:bg-muted"
+              className="inline-flex size-11 items-center justify-center rounded-md transition-colors hover:bg-muted sm:size-9"
               aria-label={`${value} зірок`}
             >
               <Star
                 className={cn(
-                  "size-6",
+                  "size-7 sm:size-6",
                   value <= rating
                     ? "fill-amber-400 text-amber-400"
                     : "text-muted-foreground/40"

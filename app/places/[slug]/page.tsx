@@ -68,13 +68,13 @@ function ContactAside({
   mapsUrl: string | null;
 }) {
   return (
-    <aside className="h-fit space-y-5 rounded-[1.35rem] border border-border/70 bg-card p-5 elevated sm:p-6 lg:sticky lg:top-20">
+    <aside className="h-fit space-y-5 rounded-[1.35rem] border border-border/70 bg-card p-4 elevated sm:p-6 lg:sticky lg:top-20">
       <div className="space-y-4 text-sm">
         <div className="flex gap-3">
           <MapPinned className="mt-0.5 size-4 shrink-0 text-primary" />
-          <div>
+          <div className="min-w-0">
             <p className="font-medium">Адреса</p>
-            <p className="mt-0.5 leading-relaxed text-muted-foreground">
+            <p className="mt-0.5 leading-relaxed wrap-break-word text-muted-foreground">
               {formatAddress(place.address)}
             </p>
           </div>
@@ -82,11 +82,11 @@ function ContactAside({
         {place.phone ? (
           <div className="flex gap-3">
             <Phone className="mt-0.5 size-4 shrink-0 text-primary" />
-            <div>
+            <div className="min-w-0">
               <p className="font-medium">Телефон</p>
               <a
                 href={`tel:${place.phone}`}
-                className="mt-0.5 inline-block text-primary hover:underline"
+                className="mt-0.5 inline-flex min-h-11 items-center text-base text-primary hover:underline sm:min-h-0 sm:text-sm"
               >
                 {place.phone}
               </a>
@@ -110,7 +110,7 @@ function ContactAside({
 
       <div className="flex flex-wrap gap-2">
         {place.website ? (
-          <Button asChild variant="outline" size="sm" className="h-9">
+          <Button asChild variant="outline" size="sm" className="h-10 sm:h-9">
             <a
               href={place.website}
               target="_blank"
@@ -122,7 +122,7 @@ function ContactAside({
           </Button>
         ) : null}
         {place.facebook ? (
-          <Button asChild variant="outline" size="sm" className="h-9">
+          <Button asChild variant="outline" size="sm" className="h-10 sm:h-9">
             <a
               href={place.facebook}
               target="_blank"
@@ -133,7 +133,7 @@ function ContactAside({
           </Button>
         ) : null}
         {place.instagram ? (
-          <Button asChild variant="outline" size="sm" className="h-9">
+          <Button asChild variant="outline" size="sm" className="h-10 sm:h-9">
             <a
               href={place.instagram}
               target="_blank"
@@ -144,7 +144,7 @@ function ContactAside({
           </Button>
         ) : null}
         {place.youtube ? (
-          <Button asChild variant="outline" size="sm" className="h-9">
+          <Button asChild variant="outline" size="sm" className="h-10 sm:h-9">
             <a
               href={place.youtube}
               target="_blank"
@@ -156,7 +156,7 @@ function ContactAside({
           </Button>
         ) : null}
         {place.telegram ? (
-          <Button asChild variant="outline" size="sm" className="h-9">
+          <Button asChild variant="outline" size="sm" className="h-10 sm:h-9">
             <a
               href={place.telegram}
               target="_blank"
@@ -170,7 +170,7 @@ function ContactAside({
       </div>
 
       {mapsUrl ? (
-        <Button asChild className="h-11 w-full rounded-xl" size="lg">
+        <Button asChild className="h-12 w-full rounded-xl sm:h-11" size="lg">
           <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
             Відкрити в Google Maps
             <ExternalLink className="size-4" />
