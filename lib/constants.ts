@@ -6,6 +6,11 @@ export const APP_CITY = "Дубно";
 export const APP_CITY_GENITIVE = "Дубна";
 export const APP_CITY_LOCATIVE = "у Дубні";
 
+/** Google Search Console HTML-tag verification (public meta content). */
+export const GOOGLE_SITE_VERIFICATION =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+  "0x9WegP3vqaKEnoY1exg3HW1KT5J3x6Qy1c0OMiy-6A";
+
 export function slugify(input: string): string {
   const map: Record<string, string> = {
     а: "a",

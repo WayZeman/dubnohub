@@ -19,6 +19,7 @@ import { PlaceRow } from "@/components/place-row";
 import { PlaceViewTracker } from "@/components/place-view-tracker";
 import { PostalBrandCover } from "@/components/postal-brand-cover";
 import { ReviewForm } from "@/components/review-form";
+import { JsonLd } from "@/components/json-ld";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { UserAvatar } from "@/components/user-avatar";
@@ -26,6 +27,11 @@ import { APP_CITY, googleMapsUrl } from "@/lib/constants";
 import { formatAddress, formatCountLabel, formatDate } from "@/lib/format";
 import { isPlacePopular } from "@/lib/place-popularity";
 import { getPostalBrandInfo } from "@/lib/postal-brand";
+import {
+  breadcrumbJsonLd,
+  placeJsonLd,
+  placeSeoDescription,
+} from "@/lib/seo";
 import { displayName } from "@/lib/user-display";
 import { getPlaceBySlug, getSimilarPlaces } from "@/lib/queries";
 import { cn } from "@/lib/utils";
@@ -41,10 +47,36 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const place = await getPlaceBySlug(slug);
-  if (!place) return { title: "Місце не знайдено" };
+  if (!place) return { title: "Місце не знайдено", robots: { index: false } };
+
+  const title = `${place.title} — ${place.category.name} ${APP_CITY}`;
+  const description = placeSeoDescription({
+    title: place.title,
+    categoryName: place.category.name,
+    address: place.address,
+    description: place.description,
+    phone: place.phone,
+  });
+  const path = `/places/${place.slug}`;
+  const image = place.images[0];
+
   return {
-    title: `${place.title} — ${place.category.name} ${APP_CITY}`,
-    description: place.description.slice(0, 160),
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      title,
+      description,
+      url: path,
+      type: "website",
+      images: image ? [{ url: image, alt: place.title }] : undefined,
+    },
+    twitter: {
+      card: image ? "summary_large_image" : "summary",
+      title,
+      description,
+      images: image ? [image] : undefined,
+    },
   };
 }
 
@@ -231,6 +263,30 @@ export default async function PlaceDetailPage({ params }: PageProps) {
 
   return (
     <div>
+      <JsonLd
+        data={[
+          placeJsonLd({
+            title: place.title,
+            slug: place.slug,
+            description: place.description,
+            address: place.address,
+            phone: place.phone,
+            website: place.website,
+            workingHours: place.workingHours,
+            latitude: place.latitude,
+            longitude: place.longitude,
+            images: place.images,
+            rating: place.rating,
+            reviewCount: reviewCount,
+            categoryName: place.category.name,
+          }),
+          breadcrumbJsonLd([
+            { name: "Головна", path: "/" },
+            { name: place.category.name, path: backHref },
+            { name: place.title, path: `/places/${place.slug}` },
+          ]),
+        ]}
+      />
       <PlaceViewTracker placeId={place.id} />
       <div className="page-shell pt-5 sm:pt-6">
         <Link

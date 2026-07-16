@@ -9,7 +9,13 @@ import { getCategories, searchPlaces } from "@/lib/queries";
 
 export const metadata: Metadata = {
   title: `Місця ${APP_CITY_GENITIVE}`,
-  description: `Каталог закладів і локацій ${APP_CITY_GENITIVE}: кафе, аптеки, лікарні, магазини та інше.`,
+  description: `Каталог закладів і локацій ${APP_CITY_GENITIVE}: кафе, аптеки, лікарні, магазини, школи та інше з адресами й відгуками.`,
+  alternates: { canonical: "/places" },
+  openGraph: {
+    title: `Місця ${APP_CITY_GENITIVE}`,
+    description: `Каталог закладів і локацій ${APP_CITY_GENITIVE}.`,
+    url: "/places",
+  },
 };
 
 type PageProps = {

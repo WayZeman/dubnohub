@@ -16,8 +16,17 @@ import { getCategories, getLatestPlaces, getTopPlaces } from "@/lib/queries";
 import { getDubnoWeather } from "@/lib/weather";
 
 export const metadata: Metadata = {
-  title: `${APP_NAME} — ${APP_TAGLINE}`,
+  title: {
+    absolute: `${APP_NAME} — ${APP_TAGLINE}`,
+  },
   description: APP_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: `${APP_NAME} — ${APP_TAGLINE}`,
+    description: APP_DESCRIPTION,
+    url: "/",
+    type: "website",
+  },
 };
 
 /** Cache homepage for speed; weather/DB stay fresh enough via short revalidate. */
